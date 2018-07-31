@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="example suite 1" verbose="1" >
+    <listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+    </listeners>
+
+    <test name="Add Department report" >
+        <classes>
+            <class name="functional.departmenttest.AddDepartmentTest"/>
+        </classes>
+    </test>
+    <test name="Add project report">
+        <classes>
+            <class name="functional.projecttest.AddprojectTest"/>
+        </classes>
+    </test>
+</suite>
