@@ -22,7 +22,6 @@ public class AddActionlistViewTest
     @Test
     public void listViewtest() throws InterruptedException
     {
-
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         extend.reports(classname);
         TestcaseLogin logintest = new TestcaseLogin();

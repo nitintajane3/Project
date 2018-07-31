@@ -56,10 +56,8 @@ public class DashboardPagElement {
     @FindBy(xpath = "//div[@class='dashboardPageInfoHeaderRight']/span[@class='date ng-binding']")
     WebElement getdate;
 
-
-
-
-
+    @FindBy(xpath = "//a[text()='PERSONAL TASKS']")
+    WebElement personaltasklink;
 
     public void lnkdepartment()
     {
@@ -143,6 +141,10 @@ public class DashboardPagElement {
         PageFactory.initElements(driver, this);
     }
 
+    public void linkPersonalTask()
+    {
+        personaltasklink.click();
+    }
 
 
 
