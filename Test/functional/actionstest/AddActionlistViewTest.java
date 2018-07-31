@@ -33,6 +33,7 @@ public class AddActionlistViewTest
         selectcompy.selectcompanuydropdown();
         test.log(LogStatus.INFO,"Company select successfully");
         DashboardPagElement dashboardpage = new DashboardPagElement(driver);
+        Thread.sleep(200);
         dashboardpage.lnkaction();
 
         AddActionslistViewElement actionlistelmnt = new AddActionslistViewElement(driver);
