@@ -59,6 +59,12 @@ public class DashboardPagElement {
     @FindBy(xpath = "//a[text()='PERSONAL TASKS']")
     WebElement personaltasklink;
 
+    @FindBy(xpath = "//ul[@class='navbarList']/li[3]/span/label/a")
+    WebElement dayplanrghtpnl;
+
+    @FindBy(xpath = "//ul[@class='navbarList']/li[4]/span/label/a")
+    WebElement personaltskrightpanel;
+
     public void lnkdepartment()
     {
        departmentlink.click();
@@ -76,10 +82,10 @@ public class DashboardPagElement {
         meetinglink.click();
     }
 
-    public void lnkdayplan()
+    /*public void lnkdayplan()
     {
       dayplanlink.click();
-    }
+    }*/
     public void lnkaction()
     {
         JavascriptExecutor actionlinkexcecute = (JavascriptExecutor)driver;
@@ -115,6 +121,17 @@ public class DashboardPagElement {
 
     }
 
+    public void lnkDayPlan()
+    {
+        try
+        {
+            dayplanlink.click();
+        }catch (Exception e)
+        {
+            dayplanrghtpnl.click();
+        }
+
+    }
     public void selectcompanydropdown() throws InterruptedException {
         String  actualcompany=properties.getString("companyname");
         int activecompnycount = cmpcount.size();
@@ -141,9 +158,15 @@ public class DashboardPagElement {
         PageFactory.initElements(driver, this);
     }
 
-    public void linkPersonalTask()
-    {
-        personaltasklink.click();
+    public void linkPersonalTask() {
+        try {
+            personaltasklink.click();
+
+        } catch (Exception e)
+        {
+          personaltskrightpanel.click();
+        }
+
     }
 
 
