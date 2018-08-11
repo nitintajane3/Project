@@ -80,9 +80,40 @@ public class DyplnMveActionElement
     List<WebElement> countrow;
 
 
+public int dueActionCountImportnt(int i,int j)
 
+   {
+       //i=1,2,3 and j=11,12,17
+       //int 1 and 11 critical
+       //int 2 and 12 important
+       //int 3 and 17 less important
 
+       WebElement actionscountbefore = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer']/div/div["+i+"]/div[1]/h2"));
+       String wholestringname = actionscountbefore.getText();
+       char beforemvingcoount = wholestringname.charAt(j);
 
+       int var1 = Character.getNumericValue(beforemvingcoount);
+       System.out.println("due actio  count after ="+var1);
+       return var1;
+
+   }
+
+    public int dayPlanActionCount(int k,int l)
+
+    {
+        //k=1,2,3 and l=11,12,17
+        //int 1 and 11 critical
+        //int 2 and 12 important
+        //int 3 and 17 less important
+
+        WebElement dayplanaction = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer ng-scope']/div/div["+k+"]/div[1]/h2"));
+        String dayplanstring = dayplanaction.getText();
+        char dayplanactionnum = dayplanstring.charAt(l);
+
+        int convertnumber = Character.getNumericValue(dayplanactionnum);
+        System.out.println("due actio  count after ="+convertnumber);
+        return convertnumber;
+    }
 
 
     public void clickMyAction()
@@ -146,12 +177,8 @@ public class DyplnMveActionElement
         {
         for(int i=1;i<=getrows;i++)
         {
-
               for(int j=1;j<=7;j++)
                 {
-
-
-
                     Thread.sleep(300);
                     System.out.println("actual i value " + i + "actual j value" + j);
                     WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
@@ -161,6 +188,7 @@ public class DyplnMveActionElement
                     {
                         actualnuumber.click();
                         System.out.println("click on actual date");
+
                     }
 
                 }
@@ -274,6 +302,41 @@ public class DyplnMveActionElement
         }
     }
 
+    public void dayPlanSelectpastDate() throws InterruptedException {
+        datechangeicon.click();
+        previousdate.click();
+        previousdate.click();
+        today=getCurrentDay();
+        System.out.println("today date is ="+today);
+        int getrows = countrow.size();
+        System.out.println("number of rows"+getrows);
 
+        try
+        {
+            for(int i=1;i<=getrows;i++)
+            {
+                for(int j=1;j<=7;j++)
+                {
+                    Thread.sleep(300);
+                    System.out.println("actual i value " + i + "actual j value" + j);
+                    WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
+                    String actualdate = actualnuumber.getText();
+                    System.out.println("actual date" + actualdate);
+                    if (actualdate.equals(today))
+                    {
+                        actualnuumber.click();
+                        System.out.println("click on actual date");
+
+                    }
+
+                }
+
+            }
+        }catch (Exception e)
+        {
+            System.out.println("Date does  not found");
+        }
+
+    }
 
 }
