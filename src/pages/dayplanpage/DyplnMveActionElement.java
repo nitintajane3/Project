@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import javax.swing.plaf.TableHeaderUI;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -116,8 +117,8 @@ public int dueActionCountImportnt(int i,int j)
     }
 
 
-    public void clickMyAction()
-    {
+    public void clickMyAction() throws InterruptedException {
+        Thread.sleep(1000);
         myaction.click();
     }
     public void moveCricalAction()

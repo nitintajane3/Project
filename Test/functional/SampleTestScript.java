@@ -1,11 +1,21 @@
 package functional;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.configuration.ChartLocation;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.relevantcodes.extentreports.LogStatus;
 import functional.landingpagetest.SelectCompanyTest;
 import functional.login.TestcaseLogin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
@@ -20,43 +30,71 @@ import static utilities.Reportsextend.test;
 public class SampleTestScript {
 
     DyplnMveActionElement dayplanelements = new DyplnMveActionElement(driver);
-    public static Reportsextend extend = new Reportsextend();
+   // public static Reportsextend extend = new Reportsextend();
+   ExtentHtmlReporter htmlReporter;
+    ExtentReports extent;
+    ExtentTest logger;
 
 
     @Test
-    public void dayPlanMovectionTest() throws IOException, InterruptedException
+    public void dayPlanMovectionTest(ITestResult result) throws IOException, InterruptedException
     {
 
-        extend.reports("Day Plan Automation Test for Moving Actions");
+        htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/report.html");
+        extent = new ExtentReports();
+        extent.attachReporter(htmlReporter);
+        extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
+        extent.setSystemInfo("Environment", "Automation Testing");
+        extent.setSystemInfo("User Name", "Rajkumar SM");
+
+        htmlReporter.config().setDocumentTitle("Title of the Report Comes here");
+        htmlReporter.config().setReportName("Name of the Report Comes here");
+        htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
+        htmlReporter.config().setTheme(Theme.STANDARD);
+        logger = extent.createTest("passTest");
 
         TestcaseLogin logintest = new TestcaseLogin();    //login test object created
 
         logintest.validlogintest();
 
-        test.log(LogStatus.INFO,"User  login successfully");
+        //test.log(LogStatus.INFO,"User  login successfully");
 
         SelectCompanyTest selectcompy = new SelectCompanyTest();    // //select company object created
 
         selectcompy.selectcompanuydropdown();
 
-        test.log(LogStatus.INFO,"Company select successfully");
+
+        logger.log(Status.PASS, "Company select");
+        //test.log(LogStatus.INFO,"Company select successfully");
 
         DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
 
         dashboardpage.lnkDayPlan();
 
-        test.log(LogStatus.INFO,"Successefully click on day plan link");
+        logger.log(Status.PASS, MarkupHelper.createLabel("successfully click  on day plan", ExtentColor.GREEN));
+
+        //test.log(LogStatus.INFO,"Successefully click on day plan link");
 
         Thread.sleep(200);
+        extent.flush();
 
-        dayplanelements.clickMyAction();
-        Thread.sleep(300);
-        /*WebElement critcalactioncount = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer']/div/div[1]/div[1]/h2"));
+    }
+         @Test
+        public void testts() throws InterruptedException {
+            logger = extent.createTest("Fail Test");
+            dayplanelements.clickMyAction();
+            logger.log(Status.FAIL, MarkupHelper.createLabel("CLick on my action filter", ExtentColor.BLUE));
+
+            extent.flush();
+        }
+
+        /*Thread.sleep(300);
+        *//*WebElement critcalactioncount = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer']/div/div[1]/div[1]/h2"));
         String getcritcaltext = critcalactioncount.getText();
         //System.out.println("important action"+getcritcaltext);
         System.out.println("display lenght"+getcritcaltext.length());
         char beforemving = getcritcaltext.charAt(11);
-        System.out.println("before moving action from critcal section action count  ="+  beforemving);*/
+        System.out.println("before moving action from critcal section action count  ="+  beforemving);*//*
 
 
 
@@ -109,7 +147,7 @@ public class SampleTestScript {
 
 
 
-
+*/
 
 
 
@@ -155,4 +193,4 @@ public class SampleTestScript {
 
     }
 
-}
+
