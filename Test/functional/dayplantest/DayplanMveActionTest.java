@@ -44,7 +44,7 @@ public class DayplanMveActionTest
     public void dayPlanMovectionTest() throws IOException, InterruptedException
     {
 
-        htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/Extendreportew.html");
+        htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/Dayplanextentreport.html");
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
         extent.setSystemInfo("Host Name", "Tamplo.com");
@@ -267,7 +267,7 @@ public class DayplanMveActionTest
     public void moveActionPastDate() throws InterruptedException
 
     {
-        logger3 = extent.createTest("Action move into next date day plan");
+        logger3 = extent.createTest("Action move into previous date day plan");
         //extend.reports("Moving Actions into Previous Month Day Plan");
 
         dayplanelements.dayPlanSelectpastDate();
