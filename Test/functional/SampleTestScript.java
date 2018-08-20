@@ -16,16 +16,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.dayplanpage.DyplnMveActionElement;
+import utilities.CaptureScreenShot;
 import utilities.Reportsextend;
+import utilities.TakeScreenshot;
+import utilities.failTestScreenShots;
 
 import java.io.IOException;
 
 import static functional.login.TestcaseLogin.driver;
 import static utilities.Reportsextend.test;
+import static utilities.TakeScreenshot.takeScreenshot;
 
 public class SampleTestScript {
 
@@ -41,6 +46,7 @@ public class SampleTestScript {
     {
 
         htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/report.html");
+
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
         extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
@@ -64,7 +70,7 @@ public class SampleTestScript {
         selectcompy.selectcompanuydropdown();
 
 
-        logger.log(Status.PASS, "Company select");
+        logger.log(Status.PASS, "Company select"+logger.addScreenCaptureFromPath(takeScreenshot(driver)));
         //test.log(LogStatus.INFO,"Company select successfully");
 
         DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
@@ -84,8 +90,9 @@ public class SampleTestScript {
             logger = extent.createTest("Fail Test");
             dayplanelements.clickMyAction();
             logger.log(Status.FAIL, MarkupHelper.createLabel("CLick on my action filter", ExtentColor.BLUE));
+            dayplanelements.selectProjectOvervw();
 
-            extent.flush();
+
         }
 
         /*Thread.sleep(300);
@@ -188,7 +195,14 @@ public class SampleTestScript {
         }else {
             System.out.println("Action moved but count not update ");
         }*/
+        @AfterMethod
+        public void tearDown(ITestResult result) throws IOException {
 
+            failTestScreenShots sreenshot = new failTestScreenShots();
+            sreenshot.failscreenshot(driver,result);
+
+
+        }
 
 
     }

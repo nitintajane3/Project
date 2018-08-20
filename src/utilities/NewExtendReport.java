@@ -11,11 +11,15 @@ public class NewExtendReport
     ExtentHtmlReporter htmlReporter;
     public static ExtentReports extent;
     public static ExtentTest logger;
+    public static ExtentTest logger1;
+    public static ExtentTest logger2;
+    public static ExtentTest logger3;
 
 
-    public void newReport(String reportname,String testname)
+
+    public void newReport(String reportname,String hmlflenme)
     {
-        htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/Extendreportew.html");
+        htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/"+hmlflenme+".html");
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
         extent.setSystemInfo("Host Name", "Tamplo.com");
@@ -26,7 +30,7 @@ public class NewExtendReport
         htmlReporter.config().setReportName(reportname);
         htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
         htmlReporter.config().setTheme(Theme.STANDARD);
-        logger = extent.createTest(testname);
+
 
 
     }
