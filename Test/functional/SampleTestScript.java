@@ -2,48 +2,48 @@ package functional;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.ChartLocation;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import com.relevantcodes.extentreports.LogStatus;
 import functional.landingpagetest.SelectCompanyTest;
 import functional.login.TestcaseLogin;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+import org.openqa.selenium.support.FindBy;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.dayplanpage.DyplnMveActionElement;
-import utilities.CaptureScreenShot;
-import utilities.Reportsextend;
-import utilities.TakeScreenshot;
 import utilities.failTestScreenShots;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
+import static functional.dayplantest.DayPlanAddactionTest.overviewelement;
 import static functional.login.TestcaseLogin.driver;
-import static utilities.Reportsextend.test;
 import static utilities.TakeScreenshot.takeScreenshot;
 
 public class SampleTestScript {
 
     DyplnMveActionElement dayplanelements = new DyplnMveActionElement(driver);
-   // public static Reportsextend extend = new Reportsextend();
-   ExtentHtmlReporter htmlReporter;
+    // public static Reportsextend extend = new Reportsextend();
+    ExtentHtmlReporter htmlReporter;
     ExtentReports extent;
+    private String date = "12";
+    public String disablecount;
+    private String today;
     ExtentTest logger;
 
 
     @Test
-    public void dayPlanMovectionTest(ITestResult result) throws IOException, InterruptedException
-    {
+    public void dayPlanMovectionTest(ITestResult result) throws IOException, InterruptedException {
 
         htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/report.html");
 
@@ -70,7 +70,7 @@ public class SampleTestScript {
         selectcompy.selectcompanuydropdown();
 
 
-        logger.log(Status.PASS, "Company select"+logger.addScreenCaptureFromPath(takeScreenshot(driver)));
+        logger.log(Status.PASS, "Company select" + logger.addScreenCaptureFromPath(takeScreenshot(driver)));
         //test.log(LogStatus.INFO,"Company select successfully");
 
         DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
@@ -81,11 +81,101 @@ public class SampleTestScript {
 
         //test.log(LogStatus.INFO,"Successefully click on day plan link");
 
+        dayplanelements.clickMyAction();
         Thread.sleep(200);
+        dayplanelements.dueAtionAddCritcal();
+        dayplanelements.enterActiontitle();
+        WebElement duedate = driver.findElement(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span[button[@title='DUE DATE']]"));
+
+
+        // dayplanelements.selectduedate();
+
+        today = getCurrentDay();
+        System.out.println("today date is =" + today);
+        duedate.click();
+        System.out.println("date click  on successfully");
+        Thread.sleep(200);
+       //driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/table/thead/tr/th[3]")).click();
+        //System.out.println("successfullyclick on next month ");
+
+
+        List<WebElement> findnorows = driver.findElements(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span/div/div/table/tbody/tr"));
+
+        int getrows = findnorows.size();
+        System.out.println("number of rows" + getrows);
+        for (int i = 1; i <= getrows; i++)
+        {
+            for (int j = 1; j <= 7; j++)
+            {
+                Thread.sleep(300);
+                WebElement actualnuumber = driver.findElement(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span/div/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
+                String actualdate = actualnuumber.getText();
+                if (actualdate.equals(today))
+                {
+                  WebElement disabledate = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[1]/td["+j+"][@class='ng-binding ng-scope disabled']"));
+                    disablecount = disabledate.getText();
+                    System.out.println(disablecount);
+                    if(disabledate.isSelected())
+                    {
+                        System.out.println("is enable  run");
+                        break;
+                    }
+                    else
+                    {
+                        try
+                           {
+                            actualnuumber.click();
+                            System.out.println("click on actual date");
+                           }catch (Exception re)
+                                 {
+                                   System.out.println("not  elemmernt not found for click");
+                                 }
+                    }
+                }
+            }
+        }
+
+
+        Thread.sleep(100);
+
+        dayplanelements.selectProjectOvervw();
+
+
+        Thread.sleep(400);
+
+        overviewelement.selectActionAssigneeOvervw();
+
+
+        Thread.sleep(400);
+
+        overviewelement.btnSave();
+
+
+        Thread.sleep(400);
+
+        overviewelement.btnClosedPopup();
+
         extent.flush();
 
     }
-         @Test
+
+    private String getCurrentDay()
+    {
+        //Create a Calendar Object
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+
+        //Get Current Day as a number
+        int todayInt = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println("Today Int: " + todayInt + "\n");
+
+        //Integer to String Conversion
+        String todayStr = Integer.toString(todayInt);
+        System.out.println("Today Str: " + todayStr + "\n");
+
+        return todayStr;
+    }
+
+         /*@Test
         public void testts() throws InterruptedException {
             logger = extent.createTest("Fail Test");
             dayplanelements.clickMyAction();
@@ -93,7 +183,7 @@ public class SampleTestScript {
             dayplanelements.selectProjectOvervw();
 
 
-        }
+        }*/
 
         /*Thread.sleep(300);
         *//*WebElement critcalactioncount = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer']/div/div[1]/div[1]/h2"));

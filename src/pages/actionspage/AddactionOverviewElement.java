@@ -181,6 +181,7 @@ public class AddactionOverviewElement
                 {
                     actualnuumber.click();
                     System.out.println("click on actual date");
+                    break;
                 }
             }
         }
@@ -220,8 +221,8 @@ public class AddactionOverviewElement
 
         for(int i=1;i<=assgineecount;i++)
         {
-            try
-            {
+           /* try
+            {*/
 
                 WebElement projectnelement = driver.findElement(By.xpath("//div[@class='dropdown-content upside right ng-scope show']/ul/li["+i+"]/a"));
 
@@ -232,12 +233,12 @@ public class AddactionOverviewElement
                     System.out.println(expectedassgine+"both assginee name ="+atalprojectname);
                     projectnelement.click();
                     System.out.println("successfully click  on project");
-
+                    break;
                 }
-            }catch (Exception r)
+            /*}catch (Exception r)
             {
                 System.out.println(" project select condition not match");
-            }
+            }*/
 
         }
     }
@@ -248,7 +249,7 @@ public class AddactionOverviewElement
         /*JavascriptExecutor excecuteactionassiggnee = (JavascriptExecutor) driver;
 
         excecuteactionassiggnee.executeScript("arguments[0].click();", selectassginee);*/
-        selectassginee.click();
+          //        selectassginee.click();
 
         System.out.println("successfully click on assignee icon");
 
@@ -256,29 +257,29 @@ public class AddactionOverviewElement
 
         int assgineecount = assignecount.size();
         System.out.println("list of prject"+assgineecount);
-        String expectedassgine = propertyfile.getString("assginee1");
+        String expectedassgine = propertyfile.getString("assginee3");
         for (int i = 1; i <= assgineecount; i++)
         {
-            try
-            {
+           /* try
+            {*/
                 WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content upside right ng-scope show']/ul/li[" + i + "]/a"));
                 String atalassginename = assignelement.getText();
-                //System.out.println("assginee name ="+atalassginename);
+                System.out.println("assginee name ="+atalassginename);
                 if (atalassginename.equals(expectedassgine))
                 {
                     System.out.println(atalassginename+"=both are same = "+expectedassgine);
                     assignelement.click();
                     System.out.println("successfully click on user");
+                    break;
                 }
-            } catch (Exception r)
+            } /*catch (Exception r)
             {
                 System.out.println("condition not match");
-            }
+            }*/
 
         }
 
 
-    }
 
     public void btnSave()
     {

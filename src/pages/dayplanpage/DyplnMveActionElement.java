@@ -16,6 +16,7 @@ public class DyplnMveActionElement
 {
     WebDriver driver;
     private String today;
+    public String disablecount;
     private String date = "28";
     private int critcalmove=1;
     private int importntmove=1;
@@ -181,12 +182,25 @@ public int dueActionCountImportnt(int i,int j)
               for(int j=1;j<=7;j++)
                 {
                     Thread.sleep(300);
+
                     System.out.println("actual i value " + i + "actual j value" + j);
+
+
+                    try
+                    {
+                        WebElement disabledate = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[1]/td["+j+"][@class='ng-binding ng-scope disabled']"));
+                        disablecount = disabledate.getText();
+                        boolean checkeement = disabledate.isEnabled();
+                        System.out.println("disable date"+disablecount);
+                    }catch (Exception e){System.out.println("does not found any disable  date");}
+
+
                     WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
                     String actualdate = actualnuumber.getText();
                     System.out.println("actual date" + actualdate);
                     if (actualdate.equals(today))
                     {
+                        //if(disablecount.equals())
                         actualnuumber.click();
                         System.out.println("click on actual date");
 
@@ -242,6 +256,7 @@ public int dueActionCountImportnt(int i,int j)
                 {
                     actualnuumber.click();
                     System.out.println("click on actual date");
+                    break;
                 }
             }
         }
@@ -263,8 +278,7 @@ public int dueActionCountImportnt(int i,int j)
         return todayStr;
     }
 
-    public void selectProjectOvervw()
-    {
+    public void selectProjectOvervw() throws InterruptedException {
         /*JavascriptExecutor excecuteactionproject = (JavascriptExecutor)driver;
 
         excecuteactionproject.executeScript("arguments[0].click();",selectprojectbtn );*/
@@ -281,8 +295,6 @@ public int dueActionCountImportnt(int i,int j)
 
         for(int i=1;i<=assgineecount;i++)
         {
-            try
-            {
                 Thread.sleep(200);
                 WebElement projectnelement = driver.findElement(By.xpath("//div[@class='dropdown-content upside right ng-scope show']/ul/li["+i+"]/a"));
 
@@ -293,12 +305,10 @@ public int dueActionCountImportnt(int i,int j)
                     System.out.println(expectedassgine+"both assginee name ="+atalprojectname);
                     projectnelement.click();
                     System.out.println("successfully click  on project");
+                    break;
 
                 }
-            }catch (Exception r)
-            {
-                System.out.println(" project select condition not match");
-            }
+
 
         }
     }
