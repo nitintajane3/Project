@@ -221,9 +221,6 @@ public class AddactionOverviewElement
 
         for(int i=1;i<=assgineecount;i++)
         {
-           /* try
-            {*/
-
                 WebElement projectnelement = driver.findElement(By.xpath("//div[@class='dropdown-content upside right ng-scope show']/ul/li["+i+"]/a"));
 
                 String atalprojectname = projectnelement.getText();
@@ -235,10 +232,6 @@ public class AddactionOverviewElement
                     System.out.println("successfully click  on project");
                     break;
                 }
-            /*}catch (Exception r)
-            {
-                System.out.println(" project select condition not match");
-            }*/
 
         }
     }
@@ -260,8 +253,7 @@ public class AddactionOverviewElement
         String expectedassgine = propertyfile.getString("assginee3");
         for (int i = 1; i <= assgineecount; i++)
         {
-           /* try
-            {*/
+
                 WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content upside right ng-scope show']/ul/li[" + i + "]/a"));
                 String atalassginename = assignelement.getText();
                 System.out.println("assginee name ="+atalassginename);
@@ -272,11 +264,7 @@ public class AddactionOverviewElement
                     System.out.println("successfully click on user");
                     break;
                 }
-            } /*catch (Exception r)
-            {
-                System.out.println("condition not match");
-            }*/
-
+            }
         }
 
 
