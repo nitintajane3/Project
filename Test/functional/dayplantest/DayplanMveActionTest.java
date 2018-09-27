@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
-import static functional.departmenttest.AddDepartmentTest.extend;
 import static functional.login.TestcaseLogin.driver;
 import static utilities.NewExtendReport.*;
 import static utilities.Reportsextend.test;

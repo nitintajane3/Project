@@ -16,8 +16,6 @@ import pages.dayplanpage.DyplnMveActionElement;
 import utilities.NewExtendReport;
 
 import java.io.IOException;
-
-import static functional.departmenttest.AddDepartmentTest.extend;
 import static utilities.NewExtendReport.*;
 import static utilities.Reportsextend.test;
 

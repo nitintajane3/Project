@@ -11,7 +11,6 @@ import utilities.Reportsextend;
 
 import java.util.concurrent.TimeUnit;
 
-import static functional.departmenttest.AddDepartmentTest.extend;
 import static functional.login.TestcaseLogin.driver;
 import static utilities.Reportsextend.test;
 
@@ -23,7 +22,7 @@ public class AddActionlistViewTest
     public void listViewtest() throws InterruptedException
     {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        extend.reports(classname);
+       // extend.reports(classname);
         TestcaseLogin logintest = new TestcaseLogin();
 
         logintest.validlogintest();

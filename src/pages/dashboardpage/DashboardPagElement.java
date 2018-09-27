@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ public class DashboardPagElement {
 
     ResourceBundle properties = ResourceBundle.getBundle("config");
     String  actualcompany=properties.getString("companyname");
+    JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
 
 
     @FindBy(xpath = "//a[text()=' PROJECTS ']")
@@ -50,6 +52,9 @@ public class DashboardPagElement {
    @FindBy(xpath = "//a[@href='../app/#!/departments'][text()=' DEPARTMENTS ']")
    WebElement  departmentlink;
 
+   @FindBy(xpath = "//a[@class='ng-binding'][text()=' DEPARTMENTS ']")
+   WebElement leftpaneldptlink;
+
     @FindBy(css="button[class='btn small btnDropDown ng-binding']")
     WebElement usernameprofileiconCSS;
 
@@ -65,11 +70,26 @@ public class DashboardPagElement {
     @FindBy(xpath = "//ul[@class='navbarList']/li[4]/span/label/a")
     WebElement personaltskrightpanel;
 
-    public void lnkdepartment()
+    public void lnkDepartment()
     {
-       departmentlink.click();
+        try {
+            JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
+            excetuejava.executeScript("arguments[0].click()",departmentlink);
+            //departmentlink.click();
 
-    }
+        }catch (Exception dprt){
+            JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
+            excetuejava.executeScript("arguments[0].click()",leftpaneldptlink);
+            //leftpaneldptlink.click();
+
+        }
+            }
+
+            public void leftPanelDeptLink()
+            {
+                JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
+                excetuejava.executeScript("arguments[0].click()",leftpaneldptlink);
+            }
     public void lnkprojects()
     {
         WebDriverWait wait = new WebDriverWait(driver, 20);
@@ -110,7 +130,11 @@ public class DashboardPagElement {
     }
    public void lnkdepartmet()
    {
-      departmentlink.click();
+       JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
+       excetuejava.executeScript("arguments[0].click()",departmentlink);
+       /*JavascriptExecutor js = (JavascriptExecutor)driver;
+       js.executeAsyncScript("window.setTimeout(arguments[arguments.length - 1], 3000);");
+       departmentlink.click();*/
    }
 
     public void dropdowncompany()

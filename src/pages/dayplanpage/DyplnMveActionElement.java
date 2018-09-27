@@ -92,9 +92,18 @@ public int dueActionCountImportnt(int i,int j)
 
        WebElement actionscountbefore = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer']/div/div["+i+"]/div[1]/h2"));
        String wholestringname = actionscountbefore.getText();
-       char beforemvingcoount = wholestringname.charAt(j);
+       System.out.println("get text from "+wholestringname+ "length of action "+wholestringname.length());
+       String last2 = (wholestringname.substring(wholestringname.length()-3));
 
-       int var1 = Character.getNumericValue(beforemvingcoount);
+       String removeingspace = last2.replaceAll("-","").trim();
+
+       //System.out.println("after apply replaceall="+removeingspace+"lengthofstrong="+removeingspace.length());
+      // System.out.println("it will print last two  character="+last2+"length of charvter");
+       //char beforemvingcoount = wholestringname.charAt(j);
+
+      // System.out.println("beofee moving char"+beforemvingcoount);
+      int var1 =Integer.parseInt(String.valueOf(removeingspace));
+      // int var11 = Character.getNumericValue(beforemvingcoount);
        System.out.println("due actio  count after ="+var1);
        return var1;
 
@@ -110,9 +119,16 @@ public int dueActionCountImportnt(int i,int j)
 
         WebElement dayplanaction = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer ng-scope']/div/div["+k+"]/div[1]/h2"));
         String dayplanstring = dayplanaction.getText();
-        char dayplanactionnum = dayplanstring.charAt(l);
+        //char dayplanactionnum = dayplanstring.charAt(l);
 
-        int convertnumber = Character.getNumericValue(dayplanactionnum);
+        String dayplanactiondeault = (dayplanstring.substring(dayplanstring.length()-3));
+
+        String removeingspace2 = dayplanactiondeault.replaceAll("-","").trim();
+
+        //int convertnumberw = Character.getNumericValue(dayplanactionnum);
+
+        int convertnumber =Integer.parseInt(String.valueOf(removeingspace2));
+
         System.out.println("due actio  count after ="+convertnumber);
         return convertnumber;
     }

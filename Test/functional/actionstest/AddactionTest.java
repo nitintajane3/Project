@@ -10,7 +10,7 @@ import utilities.Reportsextend;
 
 import java.util.concurrent.TimeUnit;
 
-import static functional.departmenttest.AddDepartmentTest.extend;
+
 import static functional.login.TestcaseLogin.driver;
 import static utilities.Reportsextend.test;
 
@@ -21,7 +21,7 @@ String classname = "Add Action test";
     public void EditProject() throws InterruptedException
     {
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        extend.reports(classname);
+        //extend.reports(classname);
        TestcaseLogin logintest = new TestcaseLogin();
 
        logintest.validlogintest();

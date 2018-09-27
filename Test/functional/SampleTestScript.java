@@ -43,7 +43,7 @@ public class SampleTestScript {
 
 
     @Test
-    public void dayPlanMovectionTest(ITestResult result) throws IOException, InterruptedException {
+    public void dayPlanMovectionTest(ITestResult result) throws InterruptedException, IOException {
 
         htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/report.html");
 
@@ -81,7 +81,7 @@ public class SampleTestScript {
 
         //test.log(LogStatus.INFO,"Successefully click on day plan link");
 
-        dayplanelements.clickMyAction();
+       dayplanelements.clickMyAction();
         Thread.sleep(200);
         dayplanelements.dueAtionAddCritcal();
         dayplanelements.enterActiontitle();

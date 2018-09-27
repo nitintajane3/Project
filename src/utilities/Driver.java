@@ -25,12 +25,14 @@ public class Driver {
             case Chromedriver:
                 System.setProperty("webdriver.chrome.driver","C:\\Users\\Admin\\IdeaProjects\\Project\\Browsers\\chromedriver.exe");
                 MyDriver = new ChromeDriver();
+                MyDriver.manage().deleteAllCookies();
                 MyDriver.manage().window().maximize();
                 break;
 
             case Firefoxdriver:
                 System.setProperty("webdriver.gecko.driver","C:\\Users\\Admin\\IdeaProjects\\Project\\Browsers\\geckodriver.exe");
                 MyDriver =  new FirefoxDriver();
+                MyDriver.manage().deleteAllCookies();
                 //MyDriver.manage().window().maximize();
 
                 break;

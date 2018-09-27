@@ -1,89 +1,108 @@
 package functional.departmenttest;
 
-
-import com.relevantcodes.extentreports.LogStatus;
-import functional.landingpagetest.SelectCompanyTest;
-import functional.login.TestcaseLogin;
+import functional.login.LoginTst;
 import org.openqa.selenium.By;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.departmentpage.AddDepartmetElement;
-import utilities.Reportsextend;
-import utilities.TakeScreenshot;
-
+import pages.departmentpage.EditdepartmentElement;
+import sun.awt.windows.ThemeReader;
+import utilities.NewExtendReport;
+import static functional.login.LoginTst.driver;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import static utilities.NewExtendReport.extent;
 
-import static functional.login.TestcaseLogin.driver;
-import static utilities.Reportsextend.test;
 
 
 public class AddDepartmentTest
 
 {
-    String classname = "Add Department test";
+    DashboardPagElement dashboardpge =new DashboardPagElement(driver);
+    NewExtendReport adddptreport =  new NewExtendReport();
+    EditdepartmentElement editdeptelement = new EditdepartmentElement(driver);
+    AddDepartmetElement adddptemement = new AddDepartmetElement(driver);
 
-    public static Reportsextend extend = new Reportsextend();
-   @Test
-    public void Adddepartmet() throws InterruptedException, IOException {
+   @BeforeTest
+    public void Adddepartmet() throws InterruptedException {
 
-       extend.reports(classname);
-       driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-       TestcaseLogin logintest = new TestcaseLogin();
-       Reportsextend.test.log(LogStatus.INFO,"User login successfully");
-       logintest.validlogintest();
-       Thread.sleep(300);
-       DashboardPagElement dashboardpge =new DashboardPagElement(driver);
-        AddDepartmetElement departmetpage = new AddDepartmetElement(driver);
-        SelectCompanyTest selectcompy = new SelectCompanyTest();
+       driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
-          selectcompy.selectcompanuydropdown();
-          Reportsextend.test.log(LogStatus.INFO,"Company select successfully");
-          Thread.sleep(300);
-          dashboardpge.lnkdepartmet();
-          Reportsextend.test.log(LogStatus.INFO,"Successfully click on Department");
-          Thread.sleep(300);
-          departmetpage.setAddDeptbutton();
-          Reportsextend.test.log(LogStatus.INFO,"Successfully click on Add department button");
-          departmetpage.setDprtnametextarea();
-          Reportsextend.test.log(LogStatus.INFO,"Successfully enter the department name");
-          Thread.sleep(100);
-          departmetpage.clickemptyspace();
-          Thread.sleep(200);
-           try
-           {
-               Thread.sleep(500);
-               departmetpage.addbuttodeprtmaager();
-               Reportsextend.test.log(LogStatus.INFO,"Successfully click on add department manager button");
-               departmetpage.enteremailid();
-               Reportsextend.test.log(LogStatus.INFO,"Successfully enter the email  id");
-               departmetpage.clickemailidfield();
-               departmetpage.clickonsavebutton();
-               Reportsextend.test.log(LogStatus.INFO,"Successfully add user into department manager position");
-               Thread.sleep(300);
-               driver.findElement(By.xpath("//button[text()='OK']")).click();
+       //adddptreport.newReport("Add Department","add_department_test");
 
-               departmetpage.setdeparmentmember();
-               departmetpage.enteremailidmember();
-               departmetpage.setemptyclick();
-               departmetpage.clickonsavebutton();
-               Thread.sleep(700);
-               driver.findElement(By.xpath("//button[text()='OK']")).click();
-               Reportsextend.test.log(LogStatus.INFO,"Department added successfully");
+       //NewExtendReport.logger =  extent.createTest("Add Department");
 
-           }catch (Exception e)
-                   {
+       LoginTst logintest = new LoginTst();
 
-                       departmetpage.duplicatepoppresent();
-                       test.log(LogStatus.INFO,"Department already exist in system"+test.addScreenCapture("/screenshot"+ TakeScreenshot.takeScreenshot(driver)));
-                       departmetpage.duplicatepopupclosed();departmetpage.duplicatepoppresent();
-                       test.log(LogStatus.INFO,"Department already exist in system"+test.addScreenCapture("/screenshot"+ TakeScreenshot.takeScreenshot(driver)));
-                       departmetpage.duplicatepopupclosed();
+       logintest.loginTestNew();
 
-                    }
+       Thread.sleep(2000);
 
-           Reportsextend.extend.endTest(test);
-           Reportsextend.extend.flush();
+       driver.findElement(By.xpath("//a[@href='../app/#!/departments'][text()=' DEPARTMENTS ']")).click();
+       //dashboardpge.lnkdepartmet();
 
+
+       adddptemement.setAddDeptbutton();
+
+       adddptemement.setDprtnametextarea();
+
+       adddptemement.clickemptyspace();
+
+       driver.findElement(By.xpath("//button[text()='OK']")).click();
+
+       Thread.sleep(1000);
+
+      // extent.flush();
+
+   }
+
+   @Test(priority = 1)
+    public void addUserManager() {
+       try
+       {
+           adddptemement.addbuttodeprtmaager();
+
+           adddptemement.enteremailid();
+
+           adddptemement.clickemailidfield();
+
+           adddptemement.clickonsavebutton();
+
+           editdeptelement.userAddsucess();
+
+       }catch (Exception e)
+       {
+           editdeptelement.userDuplicateAlert();
+
+           adddptemement.duplicatepopupclosed();
+
+           editdeptelement.btnCancelManager();
+       }
+
+   }
+
+   @Test(priority = 2)
+    public void addUserMember() {
+       try
+       {
+           adddptemement.setdeparmentmember();
+
+           adddptemement.enteremailidmember();
+
+           adddptemement.setemptyclick();
+
+           adddptemement.clickonsavebutton();
+
+           editdeptelement.userAddsucess();
+
+       }catch (Exception e)
+       {
+           editdeptelement.userDuplicateAlert();
+
+           adddptemement.duplicatepopupclosed();
+
+           editdeptelement.btnCanceMember();
+       }
    }
 }
