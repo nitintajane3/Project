@@ -3,15 +3,9 @@
     <listeners>
         <listener class-name="org.uncommons.reportng.HTMLReporter"/>
     </listeners>
-
     <test name="Add Department report" >
         <classes>
-            <class name="functional.departmenttest.AddDepartmentTest"/>
-        </classes>
-    </test>
-    <test name="Add project report">
-        <classes>
-            <class name="functional.projecttest.AddprojectTest"/>
+            <class name="functional.departmenttest.moveDepartUserTest"/>
         </classes>
     </test>
 </suite>

@@ -34,6 +34,7 @@ public class DeptUserActiveDeactiveElement
   @FindBy(xpath = "//div[@class='filterActions']/ul/li[1]/a/span[2]")
   WebElement activateuser;
 
+
   @FindBy(xpath = "//div[@class='userSection']/div[1]/ul/li/div[2]/span")
   List<WebElement> listofusername;
 
@@ -153,6 +154,7 @@ public class DeptUserActiveDeactiveElement
                 returnusername = readusername;
                 break;
             }
+              returnusername = "No User present in Department manager level";
           }
 
         }else
@@ -184,6 +186,7 @@ public class DeptUserActiveDeactiveElement
                     returnmembername = readmembername;
                     break;
                 }
+                returnmembername = "No User present in Department member level";
             }
 
         }else
@@ -220,6 +223,16 @@ public class DeptUserActiveDeactiveElement
         driver.findElement(By.xpath("//div[@class='actiontool ng-scope']/span[2]/div/ul/li[2]/a")).click();
     }
 
+    public void deactivateButton()
+    {
+        driver.findElement(By.xpath("//div[@class='actiontool ng-scope']/span[2]/div/ul/li[2]/a")).click();
+    }
+
+    public void activateButton()
+    {
+        driver.findElement(By.xpath("//div[@class='actiontool ng-scope']/span[2]/div/ul/li[2]/a")).click();
+    }
+
 
     public String searchNameAndRemve() throws InterruptedException {
         int usermanagernum = activeManagerDptcnt();
@@ -235,9 +248,10 @@ public class DeptUserActiveDeactiveElement
                 {
                     Thread.sleep(500);
                     driver.findElement(By.xpath("//div[@class='userSection']/div[1]/ul/li["+i+"]/div[4]/button")).click();
-                    returnusername = readusername;
+                    returnusername = readusername  + " This user found in manager level";
                     break;
                 }
+                returnusername = readusername +" This user found in manager level";
             }
 
             driver.findElement(By.xpath("//div[@class='actiontool ng-scope']/span[2]")).click();
@@ -259,10 +273,12 @@ public class DeptUserActiveDeactiveElement
                     {
                         Thread.sleep(500);
                         driver.findElement(By.xpath("//div[@class='userSection']/div[2]/ul/li["+i+"]/div[4]/button")).click();
-                        returnusername = readmembername;
+                        returnusername = readmembername  + " This user found in member level";
                         driver.findElement(By.xpath("//div[@class='actiontool ng-scope']/span[2]")).click();
                         break;
                     }
+
+                    returnusername = readmembername + " This user found in member level";
                 }
 
             }else
@@ -272,7 +288,9 @@ public class DeptUserActiveDeactiveElement
             }
         }
 
-
         return returnusername;
     }
+
+
 }
+

@@ -15,6 +15,7 @@ public class NewExtendReport
     public static ExtentTest logger2;
     public static ExtentTest logger3;
     public static ExtentTest logger4;
+    public static ExtentTest logger5;
 
 
 
