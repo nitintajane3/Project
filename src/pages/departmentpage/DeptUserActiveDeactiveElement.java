@@ -70,7 +70,7 @@ public class DeptUserActiveDeactiveElement
       String managerlabel =  activatemanagercount.getText();
      int managerlbellength = managerlabel.length();
 
-     if(managerlbellength==18)
+     if(managerlbellength<=18)
      {
       //System.out.println("No any manager exist in this  department");
       actualmanagercnt = 00;
@@ -88,7 +88,7 @@ public class DeptUserActiveDeactiveElement
       int actualmembercnt = 00;
       String memberlabel =  activemembercount.getText();
       int memberlbellength = memberlabel.length();
-      if(memberlbellength==17)
+      if(memberlbellength<=17)
       {
           //System.out.println("No any manager exist in this  department");
           actualmembercnt = 00;

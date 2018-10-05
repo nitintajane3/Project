@@ -1,6 +1,7 @@
 package pages.projectpage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +16,8 @@ public class AddProjectElement {
     WebDriver driver;
 
     ResourceBundle properties = ResourceBundle.getBundle("Departmentame");
+
+    ResourceBundle propertiesfile = ResourceBundle.getBundle("tamplo5");
 
     public AddProjectElement(WebDriver driver)
     {
@@ -34,14 +37,26 @@ public class AddProjectElement {
     @FindBy(xpath = "//a[@class='dropbtn option ng-binding ng-scope'][text()='SELECT DEPARTMENT']")
     WebElement departmentdropdown;
 
+    @FindBy(xpath = "//div[@class='swal-modal']/div[2][text()='Duplicate project name.']")
+    WebElement duplicatepopread;
+
+    @FindBy(xpath = "//div[@class='swal-modal']/div[2][text()='Already added to this project.']")
+    WebElement dplicteprjctuserpopup;
+
     @FindBy(xpath = "//div[@class='dropdown-content ng-scope show']/ul/li")
     WebElement departmentlist;
+
+    @FindBy(xpath = "//button[text()='OK']")
+    WebElement buttonok;
+
 
    @FindBy(xpath = "//a[@class='dropbtn option ng-binding ng-scope']/span")
     WebElement dptdropdownicon;
 
    @FindBy(xpath = "//input[@name='projectName'][@placeholder='GIVE YOUR PROJECT A NAME']")
    WebElement textfieldprojectname;
+
+    //header[@class='projectInfoContentHeader']/div[2]/div/input
 
    @FindBy(xpath = "//div[@class='projectsPageContainer zeroState ng-scope']")
    WebElement emptyspace;
@@ -60,6 +75,35 @@ public class AddProjectElement {
 
    @FindBy(xpath = "//button[text()='ADD PROJECT MEMBER']")
    WebElement buttonprojectmember;
+
+   @FindBy(xpath = "//div[@class='projectActionsWidgetContent projectInfoContent ng-scope']/div/button[2][text()='Cancel']")
+   WebElement cancelbuton;
+
+   public void btnCancelAddUr()
+   {
+       JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
+       excetuejava.executeScript("arguments[0].click()",cancelbuton);
+
+       cancelbuton.click();
+   }
+
+   public void verfyDuplictePjctUserAlrt()
+   {
+       dplicteprjctuserpopup.isDisplayed();
+   }
+
+
+   public void verfifyDuplicatePjectAlert()
+   {
+       duplicatepopread.isDisplayed();
+   }
+
+   public void okBtnPopup()
+   {
+       JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
+       excetuejava.executeScript("arguments[0].click()",buttonok);
+
+   }
 
     public void createproject() throws InterruptedException {
         try {
@@ -92,32 +136,35 @@ public class AddProjectElement {
 
         }catch (Exception e)
         {
-            departmentdropdown.click();
-            List<WebElement> countdpt = driver.findElements(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li"));
-            String  expectdptname=properties.getString("name");
-            int actualcountdpt = countdpt.size();
-            System.out.println(actualcountdpt);
-            for(int i=1;i<=actualcountdpt;i++)
+            try {
+                departmentdropdown.click();
+                List<WebElement> countdpt = driver.findElements(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li"));
+                String expectdptname = propertiesfile.getString("dptname");
+                int actualcountdpt = countdpt.size();
+                System.out.println(actualcountdpt);
+                for (int i = 1; i <= actualcountdpt; i++) {
+                    Thread.sleep(200);
+                    try {
+                        WebElement getnamedept = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li[" + i + "]"));
+                        String actualdptname = getnamedept.getText();
+
+
+                        System.out.println("Department name is =" + actualdptname);
+
+
+                        if (actualdptname.equals(expectdptname)) {
+                            driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li[" + i + "]/a")).click();
+
+                        }
+                    } catch (Exception e1) {
+                        System.out.println("condition not match");
+                    }
+
+
+                }
+            }catch (Exception notofun)
             {
-                Thread.sleep(200);
-                try {
-                    WebElement getnamedept = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li[" + i + "]"));
-                    String actualdptname = getnamedept.getText();
-
-
-                    System.out.println("Department name is =" + actualdptname);
-
-
-                if (actualdptname.equals(expectdptname))
-                {
-                    driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li[" + i + "]/a")).click();
-
-                }
-                }catch (Exception e1)
-                {
-                    System.out.println("condition not match");
-                }
-
+                System.out.println("not  found");
             }
 
 
@@ -130,7 +177,7 @@ public class AddProjectElement {
 
     public void enterprojectname()
     {
-        textfieldprojectname.sendKeys(properties.getString("projectname"));
+        textfieldprojectname.sendKeys(propertiesfile.getString("projectname"));
     }
 
     public void clickemptyspace()
@@ -148,9 +195,10 @@ public class AddProjectElement {
         buttonprojectmanager.click();
     }
 
-    public void entertextAddpeople()
+    public void entertextAddpeople(String username)
     {
-        addpeople.sendKeys(properties.getString("email2"));
+
+        addpeople.sendKeys(username);
     }
 
     public void clicksavebutton()
@@ -165,7 +213,7 @@ public class AddProjectElement {
 
     public void entertextaddpeople2()
     {
-        addpeople.sendKeys(properties.getString("email3"));
+        addpeople.sendKeys(propertiesfile.getString("projectuser2"));
     }
 
 

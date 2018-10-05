@@ -1,81 +1,166 @@
 package functional.projecttest;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.relevantcodes.extentreports.LogStatus;
-import functional.landingpagetest.SelectCompanyTest;
-import functional.login.TestcaseLogin;
+import functional.departmenttest.AddDepartmentTest;
+import functional.login.LoginTst;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.projectpage.AddProjectElement;
+import utilities.NewExtendReport;
 import utilities.Reportsextend;
+import static functional.login.LoginTst.driver;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
-
-import static functional.login.TestcaseLogin.driver;
+import static utilities.NewExtendReport.*;
 import static utilities.Reportsextend.test;
 
-public class AddprojectTest {
+public class AddprojectTest
+{
 
-    String classname = "Add Project test";
-    @Test
-    public void addproject() throws InterruptedException {
+    NewExtendReport editdept =  new NewExtendReport();
+    DashboardPagElement dashboardpage = new DashboardPagElement(driver);
+    AddProjectElement projectpage = new AddProjectElement(driver);
+    ResourceBundle proertiflename = ResourceBundle.getBundle("tamplo5");
 
-       // extend.reports(classname);
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-       TestcaseLogin logintest = new TestcaseLogin();
-        test.log(LogStatus.INFO,"User login successfully");
-        logintest.validlogintest();
-        Thread.sleep(300);
-        SelectCompanyTest selectcompy = new SelectCompanyTest();
-        selectcompy.selectcompanuydropdown();
-        test.log(LogStatus.INFO,"Company select successfully");
-        AddProjectElement projectpage = new AddProjectElement(driver);
-        DashboardPagElement dashboardpage = new DashboardPagElement(driver);
-         Thread.sleep(300);
-        dashboardpage.lnkprojects();
-        test.log(LogStatus.INFO,"successfully click on project link");
+   @BeforeTest
+   public void loginTest() throws InterruptedException
+   {
+
+       editdept.newReport("Add project test","Add_project_test_report");
+       logger =  extent.createTest("Login Test");
+       LoginTst logintest = new LoginTst();
+       logintest.loginTestNew();
+       logger.log(Status.PASS, MarkupHelper.createLabel("User login  successfully", ExtentColor.GREEN));
+       logger.log(Status.PASS, MarkupHelper.createLabel("Company select successfully", ExtentColor.GREEN));
+       extent.flush();
+   }
+
+   @Test(priority = 1)
+   public void openProjectPage() throws InterruptedException
+   {
+       logger1 =  extent.createTest("Open Project page Test");
+
+       dashboardpage.lnkprojects();
+
+       logger1.log(Status.PASS, MarkupHelper.createLabel("Project List open successfully", ExtentColor.GREEN));
+
+
+       extent.flush();
+   }
+
+    @Test(priority = 2,enabled = true)
+    public void addProjectName() throws InterruptedException
+    {
+        logger2 =  extent.createTest("Open Add Project form Test");
+
         projectpage.createproject();
-        test.log(LogStatus.INFO,"Successfully click on add project");
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Click  on add project button ", ExtentColor.GREEN));
+
         projectpage.selectdptname();
-        test.log(LogStatus.INFO,"Department select successfully");
 
         Thread.sleep(100);
+
         projectpage.enterprojectname();
-        test.log(LogStatus.INFO,"Project name enter successfully");
+
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Project title entered ", ExtentColor.GREEN));
+
         Thread.sleep(200);
+
         projectpage.clickemptyspace();
+
+        Thread.sleep(500);
 
         try
         {
-            projectpage.clickaddprojectmanager();
-            projectpage.entertextAddpeople();
-            test.log(LogStatus.INFO,"project manager email address enter successfully");
-            projectpage.clicksavebutton();
 
-            Thread.sleep(200);
-            driver.findElement(By.xpath("//button[text()='OK']")).click();
-            test.log(LogStatus.INFO,"User added into project manager account");
+            projectpage.verfifyDuplicatePjectAlert();
 
-            Thread.sleep(300);
-            projectpage.clickbuttonprojectmember();
-            projectpage.entertextaddpeople2();
-            test.log(LogStatus.INFO,"project member email address enter successfully");
-            projectpage.clicksavebutton();
-            test.log(LogStatus.INFO,"User added into project member account");
-            Thread.sleep(300);
+            projectpage.okBtnPopup();
 
-            driver.findElement(By.xpath("//button[text()='OK']")).click();
-            test.log(LogStatus.INFO,"Project create successfully");
+            logger2.log(Status.FAIL, MarkupHelper.createLabel("This Project name already exist", ExtentColor.RED));
 
-        }catch (Exception er)
-            {
-            projectpage.clickOKbuttonduplicate();
-            test.log(LogStatus.INFO,"Ths Project name already exist");
-            }
+        }catch (Exception ouputtest)
+        {
+            projectpage.okBtnPopup();
 
-        Reportsextend.extend.endTest(test);
-        Reportsextend.extend.flush();
+            logger2.log(Status.PASS, MarkupHelper.createLabel("Project name save successfully", ExtentColor.GREEN));
+        }
+
+        extent.flush();
+    }
+
+    @Test(priority = 3,enabled = true)
+    public void addProjectMngr() throws InterruptedException
+    {
+        logger3 =  extent.createTest("Add Project manager Test");
+
+        projectpage.clickaddprojectmanager();
+
+        logger3.log(Status.PASS, MarkupHelper.createLabel("Click on add button of manager account", ExtentColor.GREEN));
+
+        AddprojectTest addprojecttest =new AddprojectTest();
+
+        addprojecttest.addUserDetailsTest(logger3,proertiflename.getString("projectuser1"));
+
+        extent.flush();
 
     }
+
+    @Test(priority = 4)
+    public void addProjctMembr() throws InterruptedException
+    {
+        logger4 =  extent.createTest("Add Project manager Test");
+
+        projectpage.clickbuttonprojectmember();
+
+        logger4.log(Status.PASS, MarkupHelper.createLabel("Click on add button of member account", ExtentColor.GREEN));
+
+        AddprojectTest addprojecttest =new AddprojectTest();
+
+        addprojecttest.addUserDetailsTest(logger4,proertiflename.getString("projectuser2"));
+
+        extent.flush();
+    }
+
+
+
+    public void addUserDetailsTest(ExtentTest logrvrble,String useremailname) throws InterruptedException
+    {
+
+            projectpage.entertextAddpeople(useremailname);
+
+            logrvrble.log(Status.PASS, MarkupHelper.createLabel("user email address entered ", ExtentColor.GREEN));
+
+            projectpage.clicksavebutton();
+
+            logrvrble.log(Status.PASS, MarkupHelper.createLabel("Click on save button", ExtentColor.GREEN));
+
+            Thread.sleep(200);
+
+            try
+            {
+                projectpage.verfyDuplictePjctUserAlrt();
+
+                logrvrble.log(Status.FAIL, MarkupHelper.createLabel("This user already added", ExtentColor.RED));
+
+                projectpage.okBtnPopup();
+
+                projectpage.btnCancelAddUr();
+
+            } catch (Exception ouputtest)
+            {
+                projectpage.okBtnPopup();
+
+                logrvrble.log(Status.PASS, MarkupHelper.createLabel("User successfully added ", ExtentColor.GREEN));
+
+            }
+        }
 }

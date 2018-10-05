@@ -58,7 +58,10 @@ public class AddDepartmentTest
    }
 
    @Test(priority = 1)
-    public void addUserManager() {
+    public void addUserManager()
+   {
+
+
        try
        {
            adddptemement.addbuttodeprtmaager();

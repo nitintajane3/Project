@@ -24,7 +24,7 @@ public class DashboardPagElement {
     JavascriptExecutor excetuejava = (JavascriptExecutor)driver;
 
 
-    @FindBy(xpath = "//a[text()=' PROJECTS ']")
+    @FindBy(xpath = "//div[@class='tamplo-mainBanner-itemRight']/nav/ul/li[5]/a[text()=' PROJECTS ']")
     WebElement projectlink;
 
     @FindBy(xpath = "//a[text()=' MEETINGS ']")
@@ -92,10 +92,9 @@ public class DashboardPagElement {
             }
     public void lnkprojects()
     {
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        wait.until(ExpectedConditions.elementToBeClickable(projectlink));
-
-       projectlink.click();
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeAsyncScript("window.setTimeout(arguments[arguments.length - 1], 2000);");
+        projectlink.click();
     }
     public void lnkmeeting()
     {

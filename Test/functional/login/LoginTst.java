@@ -28,8 +28,7 @@ public class LoginTst
 
 
     @Test
-    public void loginTestNew() throws InterruptedException
-    {
+    public void loginTestNew() throws InterruptedException {
 
 
         /*reportstes.newReport("Login test","Login_test");
@@ -56,30 +55,35 @@ public class LoginTst
         Thread.sleep(2000);
         DashboardPagElement dashelement = new DashboardPagElement(driver);
 
-        String  actualcompany=rb.getString("companynametest");
-        dashelement.dropdowncompany();
-        List<WebElement> compnycount = driver.findElements(By.xpath("//*[@id='jq-dropdown-3']/ul/li"));
-        int activecompnycount = compnycount.size();
-        for(int i=1;i<=activecompnycount;i++)
-        {
+        String actualcompany = rb.getString("companynametest");
+        try {
 
-            try {
+            dashelement.dropdowncompany();
+            List<WebElement> compnycount = driver.findElements(By.xpath("//*[@id='jq-dropdown-3']/ul/li"));
+            int activecompnycount = compnycount.size();
+            for (int i = 1; i <= activecompnycount; i++) {
 
-                WebElement readcompanyname = driver.findElement(By.xpath("//*[@id='jq-dropdown-3']/ul/li[" + i + "]"));
-                String getcompanyname = readcompanyname.getText();
-                System.out.println("list of company = " + getcompanyname);
-                if (getcompanyname.equals(actualcompany)) {
-                    driver.findElement(By.xpath("//*[@id='jq-dropdown-3']/ul/li[" + i + "]/a")).click();
-                    //logger.log(Status.PASS,MarkupHelper.createLabel(actualcompany + "= This company select successfully",ExtentColor.GREEN));
-                    System.out.println("click on expected company");
+                try {
 
+                    WebElement readcompanyname = driver.findElement(By.xpath("//*[@id='jq-dropdown-3']/ul/li[" + i + "]"));
+                    String getcompanyname = readcompanyname.getText();
+                    System.out.println("list of company = " + getcompanyname);
+                    if (getcompanyname.equals(actualcompany)) {
+                        driver.findElement(By.xpath("//*[@id='jq-dropdown-3']/ul/li[" + i + "]/a")).click();
+                        //logger.log(Status.PASS,MarkupHelper.createLabel(actualcompany + "= This company select successfully",ExtentColor.GREEN));
+                        System.out.println("click on expected company");
+
+                    }
+                } catch (Exception e44) {
+                    System.out.println("condition not match");
+                    //logger.log(Status.PASS,MarkupHelper.createLabel("company not select",ExtentColor.RED));
                 }
-            }catch (Exception e44){
-                System.out.println("condition not match");
-                //logger.log(Status.PASS,MarkupHelper.createLabel("company not select",ExtentColor.RED));
             }
+            //extent.flush();
+        }catch (Exception company)
+        {
+            System.out.println("This  user belong with only one company");
         }
-        //extent.flush();
     }
 
     /*@Test(priority = 2)
