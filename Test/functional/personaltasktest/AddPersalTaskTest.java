@@ -1,109 +1,151 @@
 package functional.personaltasktest;
 
-import com.relevantcodes.extentreports.LogStatus;
-import functional.landingpagetest.SelectCompanyTest;
-import functional.login.TestcaseLogin;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import functional.login.LoginTst;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.actionspage.AddactionProjectElement;
 import pages.dashboardpage.DashboardPagElement;
+import pages.personaltaskpage.AddPersonalTkElement;
+import utilities.NewExtendReport;
+import static functional.login.LoginTst.driver;
 import utilities.Reportsextend;
-
-import java.util.concurrent.TimeUnit;
-
-import static functional.login.TestcaseLogin.driver;
-import static utilities.Reportsextend.test;
+import static utilities.NewExtendReport.extent;
+import static utilities.NewExtendReport.logger;
+import static utilities.NewExtendReport.logger1;
+import static utilities.NewExtendReport.logger2;
+import static utilities.NewExtendReport.logger3;
+import static utilities.NewExtendReport.logger4;
 
 public class AddPersalTaskTest
 {
-    private String  classname = "Add Personal task test";
-    @Test
-    public void personalTaskAdd() throws InterruptedException {
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
-        //extend.reports(classname);
+    NewExtendReport addpersonaltask =  new NewExtendReport();
+    AddactionProjectElement prsnaltskelemnt = new AddactionProjectElement(driver);
+    AddPersonalTkElement addpersnaltaskelemet = new AddPersonalTkElement(driver);
+    @BeforeTest
+    public void loginTest() throws InterruptedException
+    {
 
-        TestcaseLogin logintest = new TestcaseLogin();    //login test object created
+        addpersonaltask.newReport("Add personal task test","Add_personal_Task_test_report");
+        logger =  extent.createTest("Login Test ");
+        LoginTst logintest = new LoginTst();
+        logintest.loginTestNew();
+        logger.log(Status.PASS, MarkupHelper.createLabel("User login  successfully", ExtentColor.GREEN));
+        logger.log(Status.PASS, MarkupHelper.createLabel("Company select successfully", ExtentColor.GREEN));
+        extent.flush();
+    }
+     @Test(priority = 1)
+    public void linkPersonalTask()
+     {
+         logger1 =  extent.createTest("Open personal task  module test");
+         DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
 
-        logintest.validlogintest();
+         dashboardpage.linkPersonalTask();
+         logger1.log(Status.PASS, MarkupHelper.createLabel("Successfully link to personal task", ExtentColor.GREEN));
+         extent.flush();
+    }
 
-        test.log(LogStatus.INFO,"User  login successfully");
+    @Test(priority = 2,enabled = true)
+    public void addCritclPesonalTsk() throws InterruptedException
+    {
 
-        Thread.sleep(2000);
+        String taskcategiry = "Critical";
 
-        SelectCompanyTest selectcompy = new SelectCompanyTest();    // //select company object created
+        logger2 = extent.createTest("Add critical personal task");
 
-        selectcompy.selectcompanuydropdown();
+        int befrecrircalPersonalcount = addpersnaltaskelemet.getCriticalCount();
 
-        test.log(LogStatus.INFO,"Company select successfully");
-
-        DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
-
-        dashboardpage.linkPersonalTask();
-
-        test.log(LogStatus.INFO,"Successfully click on personal task page");
-
-        Thread.sleep(200);
-
-        AddactionProjectElement prsnaltskelemnt = new AddactionProjectElement(driver);
+        logger2.log(Status.PASS,MarkupHelper.createLabel("before adding Critical personal task count is = " + befrecrircalPersonalcount,ExtentColor.GREEN));
 
         prsnaltskelemnt.btnaddcriticalaction();
 
-        test.log(LogStatus.INFO,"Successfully click on personal task page");
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Open the critcal personal task form", ExtentColor.GREEN));
 
         Thread.sleep(100);
 
-        prsnaltskelemnt.enterActiontitle();
+        addActionDetails(logger2,taskcategiry);
 
-        test.log(LogStatus.INFO,"Enter the action title into critical section");
+        Thread.sleep(500);
 
-        Thread.sleep(100);
+        int aftrcrircalPersonalcount = addpersnaltaskelemet.getCriticalCount();
 
-        prsnaltskelemnt.clickduedate();
+        logger2.log(Status.PASS,MarkupHelper.createLabel("after adding Critical personal task count is = " + aftrcrircalPersonalcount,ExtentColor.GREEN));
 
-        test.log(LogStatus.INFO,"Due date select successfully");
+        extent.flush();
+    }
 
-        Thread.sleep(100);
 
-        prsnaltskelemnt.clicksaveaction();
+    @Test(priority = 3,enabled = true)
+    public void addImprtntPersnalTsk() throws InterruptedException {
+        String taskcategiry = "Important";
+        logger3 = extent.createTest("Add Important personal task");
 
-        test.log(LogStatus.INFO,"Personal Task add successfully in critical section");
+        int befreimportnatPersonalcount = addpersnaltaskelemet.getImportntCount();
 
-        Thread.sleep(300);
+        logger3.log(Status.PASS,MarkupHelper.createLabel("before adding important personal task count is = " + befreimportnatPersonalcount,ExtentColor.GREEN));
 
         prsnaltskelemnt.btnaddimportntaction();
 
+        logger3.log(Status.PASS, MarkupHelper.createLabel("Open the important personal task form", ExtentColor.GREEN));
+
+        addActionDetails(logger3,taskcategiry);
+
+        Thread.sleep(500);
+
+        int aftrimportnatPersonalcount = addpersnaltaskelemet.getImportntCount();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("after adding important personal task count is = " + aftrimportnatPersonalcount,ExtentColor.GREEN));
+
+        extent.flush();
+
+    }
+
+
+       @Test(priority = 4,enabled = true)
+       public void addLessImprtntPersnlTask() throws InterruptedException
+       {
+           String taskcategiry = "Less Important";
+           logger4 = extent.createTest("Add Less important personal task");
+
+           int befrelessimportnatPersonalcount = addpersnaltaskelemet.getLessImportntCount();
+
+           logger4.log(Status.PASS,MarkupHelper.createLabel("before adding less important personal task count is = " + befrelessimportnatPersonalcount,ExtentColor.GREEN));
+
+           prsnaltskelemnt.btnaddlessimportantaction();
+
+           logger4.log(Status.PASS, MarkupHelper.createLabel("Open the Less important personal task form", ExtentColor.GREEN));
+
+           addActionDetails(logger4,taskcategiry);
+
+           Thread.sleep(500);
+
+           int afterlessimportnatPersonalcount = addpersnaltaskelemet.getLessImportntCount();
+
+           logger4.log(Status.PASS,MarkupHelper.createLabel("after adding less important personal task count is = " + afterlessimportnatPersonalcount,ExtentColor.GREEN));
+
+           extent.flush();
+       }
+
+
+
+    public void addActionDetails(ExtentTest loggervrible,String variblename) throws InterruptedException
+    {
         prsnaltskelemnt.enterActiontitle();
 
-        test.log(LogStatus.INFO,"Enter the action title into important section");
+        loggervrible.log(Status.PASS,MarkupHelper.createLabel("Entered  action title ",ExtentColor.GREEN));
 
         prsnaltskelemnt.clickduedate();
 
-        test.log(LogStatus.INFO,"Due date select successfully");
+        loggervrible.log(Status.PASS,MarkupHelper.createLabel("Due date select successfully",ExtentColor.GREEN));
 
         prsnaltskelemnt.clicksaveaction();
 
-        test.log(LogStatus.INFO,"Personal Task add successfully in important section");
+        loggervrible.log(Status.PASS,MarkupHelper.createLabel("Click on save button",ExtentColor.GREEN));
 
-
-        Thread.sleep(300);
-
-        prsnaltskelemnt.btnaddlessimportantaction();
-
-        prsnaltskelemnt.enterActiontitle();
-
-        test.log(LogStatus.INFO,"Enter the action title into less important section");
-
-        prsnaltskelemnt.clickduedate();
-
-        test.log(LogStatus.INFO,"Due date select successfully");
-
-        prsnaltskelemnt.clicksaveaction();
-
-        test.log(LogStatus.INFO,"Personal Task add successfully in less important section");
-
-
-        Reportsextend.extend.endTest(test);
-        Reportsextend.extend.flush();
-
+        loggervrible.log(Status.PASS,MarkupHelper.createLabel(" Successfully Add the " + variblename + " personal task",ExtentColor.GREEN));
     }
 }

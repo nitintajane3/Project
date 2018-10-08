@@ -265,13 +265,18 @@ return  returnprojectname;
         System.out.println("date click  on successfully");
         int getrows = totalrows.size();
         System.out.println("number of rows"+getrows);
-        try {
-            for (int i = 1; i <= getrows; i++) {
-                for (int j = 1; j <= 7; j++) {
+        try
+        {
+            for (int i = 1; i <= getrows; i++)
+            {
+                for (int j = 1; j <= 7; j++)
+
+                {
                     Thread.sleep(300);
                     WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
                     String actualdate = actualnuumber.getText();
-                    if (actualdate.equals(today)) {
+                    if (actualdate.equals(today))
+                    {
                         actualnuumber.click();
                         break;
 

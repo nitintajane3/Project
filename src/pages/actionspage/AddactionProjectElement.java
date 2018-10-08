@@ -94,7 +94,8 @@ public class AddactionProjectElement
         actionntitle.sendKeys(propertyfile.getString("actiontitle"));
     }
 
-    public void clickduedate() throws InterruptedException {
+    public void clickduedate() throws InterruptedException
+    {
         today=getCurrentDay();
         System.out.println("today date is ="+today);
         duedate.click();
@@ -102,20 +103,26 @@ public class AddactionProjectElement
         System.out.println("date click  on successfully");
         int getrows = findnorows.size();
         System.out.println("number of rows"+getrows);
-        for(int i=1;i<=getrows;i++)
+        try
         {
+        for(int i=1;i<=getrows;i++)
+         {
            for(int j=1;j<=7;j++)
-           {
-               Thread.sleep(300);
+            {
               WebElement actualnuumber = driver.findElement(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span/div/div/table/tbody/tr["+i+"]/td["+j+"]"));
               String actualdate = actualnuumber.getText();
               if(actualdate.equals(today))
                   {
                   actualnuumber.click();
-                  System.out.println("click on actual date");
+                  break;
                   }
-           }
-        }
+            }
+         }
+       }catch (Exception expetin)
+
+    {
+        System.out.println("not fund start date ");
+    }
 
 
     }

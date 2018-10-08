@@ -7,6 +7,7 @@ import functional.login.LoginTst;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import pages.departmentpage.DectiveDepartmentElement;
 import pages.projectpage.EditProjectElement;
 import pages.projectpage.RemoveProjectElement;
 import utilities.NewExtendReport;
@@ -19,7 +20,7 @@ public class RemoveProjectTest
     NewExtendReport deleteprojectreport =  new NewExtendReport();
     EditProjectTest editprojcttest = new EditProjectTest();
     EditProjectElement editprojectelement = new EditProjectElement(driver);
-    RemoveProjectElement removeprojctelement = new RemoveProjectElement(driver);
+    DectiveDepartmentElement deactivedptemementpage = new DectiveDepartmentElement(driver);
     @BeforeTest
     public void loginTest() throws InterruptedException
     {
@@ -49,6 +50,15 @@ public class RemoveProjectTest
         driver.findElement(By.xpath("//h3[@title='" + getpjctname + "']/preceding-sibling::div[@class='itemOverflush']/span[2]/div/ul/li[2]/a[text()='REMOVE']")).click();
 
         logger2.log(Status.PASS, MarkupHelper.createLabel(getpjctname + " = This project select for Remove ", ExtentColor.GREEN));
+
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Click on Delete button", ExtentColor.GREEN));
+
+        deactivedptemementpage.confirmBtn();
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Click on confirm button", ExtentColor.GREEN));
+
+        deactivedptemementpage.okBtn();
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Project Remove  successfully", ExtentColor.GREEN));
+
 
         extent.flush();
     }
