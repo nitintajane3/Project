@@ -175,9 +175,9 @@ public class AddProjectElement {
         }
     }
 
-    public void enterprojectname()
+    public void enterprojectname(String projectname)
     {
-        textfieldprojectname.sendKeys(propertiesfile.getString("projectname"));
+        textfieldprojectname.sendKeys(projectname);
     }
 
     public void clickemptyspace()

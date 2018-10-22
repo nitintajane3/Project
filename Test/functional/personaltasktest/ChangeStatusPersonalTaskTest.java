@@ -10,24 +10,27 @@ import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.departmentpage.DectiveDepartmentElement;
 import pages.personaltaskpage.AddPersonalTkElement;
+import pages.personaltaskpage.ChangeStatusElement;
 import pages.personaltaskpage.DeletPersonlTaskEelment;
 import utilities.NewExtendReport;
 
 import static functional.login.LoginTst.driver;
 import static utilities.NewExtendReport.*;
+import static utilities.NewExtendReport.logger2;
 
-public class DeletePersonalTaskTest
+public class ChangeStatusPersonalTaskTest
 {
     NewExtendReport addpersonaltask =  new NewExtendReport();
     DeletPersonlTaskEelment deltepersnaltaskelement = new DeletPersonlTaskEelment(driver);
     DectiveDepartmentElement deactivedptemementpage = new DectiveDepartmentElement(driver);
     AddPersonalTkElement addpersnaltaskelemet = new AddPersonalTkElement(driver);
+    ChangeStatusElement changestatuselement = new ChangeStatusElement(driver);
 
     @BeforeTest
     public void loginTest() throws InterruptedException
     {
 
-        addpersonaltask.newReport("Delete personal task test","Delete_personal_Task_test_report");
+        addpersonaltask.newReport("Change personal task Status test","change_personal_Task_status_test_report");
         logger =  extent.createTest("Login Test ");
         LoginTst logintest = new LoginTst();
         logintest.loginTestNew();
@@ -46,17 +49,16 @@ public class DeletePersonalTaskTest
         extent.flush();
     }
 
-
     @Test(priority = 2,enabled = true)
     public void delteCriticalTaskTest() throws InterruptedException
     {
-        logger2 =  extent.createTest("Delete Critical  personal task step");
+        logger2 =  extent.createTest("Change Critical personal task Status step");
 
         String variblename = "Critical";
 
         int befrecrircalPersonalcount = addpersnaltaskelemet.getCriticalCount();
 
-        logger2.log(Status.PASS,MarkupHelper.createLabel("before delete Critical personal task count is = " + befrecrircalPersonalcount,ExtentColor.GREEN));
+        logger2.log(Status.PASS,MarkupHelper.createLabel("before change Critical personal task status count is = " + befrecrircalPersonalcount,ExtentColor.GREEN));
 
         Thread.sleep(500);
 
@@ -64,47 +66,45 @@ public class DeletePersonalTaskTest
 
         logger2.log(Status.PASS, MarkupHelper.createLabel("Critical Personal task select  by title", ExtentColor.GREEN));
 
-        logger2.log(Status.PASS, MarkupHelper.createLabel("Click on edit button", ExtentColor.GREEN));
+        logger2.log(Status.PASS, MarkupHelper.createLabel("Click on Status button", ExtentColor.GREEN));
 
-        deleteAction(logger2,variblename);
+        ChangeStatusTest(logger2);
 
         Thread.sleep(500);
 
         int aftrcrircalPersonalcount = addpersnaltaskelemet.getCriticalCount();
 
-        logger2.log(Status.PASS,MarkupHelper.createLabel("after delete Critical personal task count is = " + aftrcrircalPersonalcount,ExtentColor.GREEN));
-
+        logger2.log(Status.PASS,MarkupHelper.createLabel("after change Critical personal task status count is = " + aftrcrircalPersonalcount,ExtentColor.GREEN));
 
         extent.flush();
-
 
     }
 
     @Test(priority = 3,enabled = true)
     public void delteImportntTaskTest() throws InterruptedException
     {
-        logger3 =  extent.createTest("Delete Important  personal task step");
+        logger3 =  extent.createTest("Change important personal task Status step");
 
         String variblename = "Important";
 
         int befreimportnatPersonalcount = addpersnaltaskelemet.getImportntCount();
 
-        logger3.log(Status.PASS,MarkupHelper.createLabel("before delete important personal task count is = " + befreimportnatPersonalcount,ExtentColor.GREEN));
+        logger3.log(Status.PASS,MarkupHelper.createLabel("before change important personal task status count is = " + befreimportnatPersonalcount,ExtentColor.GREEN));
 
 
         deltepersnaltaskelement.editBtnImportnt();
 
         logger3.log(Status.PASS, MarkupHelper.createLabel("Critical Personal task select by title", ExtentColor.GREEN));
 
-        logger3.log(Status.PASS, MarkupHelper.createLabel("Click on edit button", ExtentColor.GREEN));
+        logger3.log(Status.PASS, MarkupHelper.createLabel("Click on status button", ExtentColor.GREEN));
 
-        deleteAction(logger3,variblename);
+        ChangeStatusTest(logger3);
 
         Thread.sleep(500);
 
         int aftrimportnatPersonalcount = addpersnaltaskelemet.getImportntCount();
 
-        logger3.log(Status.PASS,MarkupHelper.createLabel("after delete important personal task count is = " + aftrimportnatPersonalcount,ExtentColor.GREEN));
+        logger3.log(Status.PASS,MarkupHelper.createLabel("after change important personal task status count is = " + aftrimportnatPersonalcount,ExtentColor.GREEN));
 
 
         extent.flush();
@@ -113,59 +113,42 @@ public class DeletePersonalTaskTest
     @Test(priority = 4,enabled = true)
     public void delteLessImportntTaskTest() throws InterruptedException
     {
-        logger4 =  extent.createTest("Delete Less important  personal task step");
+        logger4 =  extent.createTest("Change Less important  personal task Status step");
 
         String variblename = "Less Important";
 
         int befrelessimportnatPersonalcount = addpersnaltaskelemet.getLessImportntCount();
 
-        logger4.log(Status.PASS,MarkupHelper.createLabel("before delete less important personal task count is = " + befrelessimportnatPersonalcount,ExtentColor.GREEN));
+        logger4.log(Status.PASS,MarkupHelper.createLabel("before change less important personal task status count is = " + befrelessimportnatPersonalcount,ExtentColor.GREEN));
 
 
         deltepersnaltaskelement.editBtnLessImportntTest();
 
         logger4.log(Status.PASS, MarkupHelper.createLabel("Critical Personal task select by title", ExtentColor.GREEN));
 
-        logger4.log(Status.PASS, MarkupHelper.createLabel("Click on edit button", ExtentColor.GREEN));
+        logger4.log(Status.PASS, MarkupHelper.createLabel("Click on status button", ExtentColor.GREEN));
 
-        deleteAction(logger4,variblename);
+        ChangeStatusTest(logger4);
 
         Thread.sleep(500);
 
         int afterlessimportnatPersonalcount = addpersnaltaskelemet.getLessImportntCount();
 
-        logger4.log(Status.PASS,MarkupHelper.createLabel("after delete less important personal task count is = " + afterlessimportnatPersonalcount,ExtentColor.GREEN));
+        logger4.log(Status.PASS,MarkupHelper.createLabel("after change less important personal task status count is = " + afterlessimportnatPersonalcount,ExtentColor.GREEN));
 
 
         extent.flush();
     }
 
-
-    public void deleteAction(ExtentTest loggervrible, String nameimportnace)
+    public void ChangeStatusTest(ExtentTest reprotvarible)
     {
-        try {
+        changestatuselement.btnStatusList();
 
-            deltepersnaltaskelement.clkThreeDot();
+        reprotvarible.log(Status.PASS, MarkupHelper.createLabel("Click on Status icon", ExtentColor.GREEN));
 
-            loggervrible.log(Status.PASS, MarkupHelper.createLabel("Click on Three dot", ExtentColor.GREEN));
+        changestatuselement.selectStatus(reprotvarible);
 
-            deltepersnaltaskelement.selectDelteOption();
-
-            loggervrible.log(Status.PASS, MarkupHelper.createLabel("Select delete option", ExtentColor.GREEN));
-
-            deactivedptemementpage.confirmBtn();
-
-            loggervrible.log(Status.PASS, MarkupHelper.createLabel("Click on confirm button", ExtentColor.GREEN));
-
-            deactivedptemementpage.okBtn();
-
-            loggervrible.log(Status.PASS, MarkupHelper.createLabel("Personal Task delete successfully from " + nameimportnace, ExtentColor.GREEN));
-
-        }catch (Exception notfinf)
-        {
-            loggervrible.log(Status.PASS, MarkupHelper.createLabel("Delete button not found", ExtentColor.GREEN));
-            System.out.println("Delete button not found");
-        }
+        reprotvarible.log(Status.PASS,MarkupHelper.createLabel("Successfully change the personal task  status",ExtentColor.GREEN));
     }
 
 }

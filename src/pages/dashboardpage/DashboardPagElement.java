@@ -27,6 +27,9 @@ public class DashboardPagElement {
     @FindBy(xpath = "//div[@class='tamplo-mainBanner-itemRight']/nav/ul/li[5]/a[text()=' PROJECTS ']")
     WebElement projectlink;
 
+    @FindBy(xpath = "//ul[@class='navbarList']/li[6]/span/label/a")
+    WebElement lftpanelprojectlink;
+
     @FindBy(xpath = "//a[text()=' MEETINGS ']")
     WebElement meetinglink;
 
@@ -69,6 +72,14 @@ public class DashboardPagElement {
 
     @FindBy(xpath = "//ul[@class='navbarList']/li[4]/span/label/a")
     WebElement personaltskrightpanel;
+
+
+    public void lftPanelPjectLnk()
+    {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeAsyncScript("window.setTimeout(arguments[arguments.length - 1], 2000);");
+        lftpanelprojectlink.click();
+    }
 
     public void lnkDepartment()
     {

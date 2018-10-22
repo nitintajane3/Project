@@ -108,9 +108,9 @@ public class EditProjectTest
 
                 Thread.sleep(1000);
 
-                addprojcttest.addProjectMngr();
+               // addprojcttest.addProjectMngr();
 
-                addprojcttest.addProjctMembr();
+                //addprojcttest.addProjctMembr();
 
             } catch (Exception ouputname)
             {

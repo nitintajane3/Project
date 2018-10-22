@@ -10,20 +10,24 @@ import com.aventstack.extentreports.reporter.configuration.ChartLocation;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import functional.landingpagetest.SelectCompanyTest;
 import functional.login.TestcaseLogin;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.dayplanpage.DyplnMveActionElement;
-import utilities.failTestScreenShots;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 import static functional.dayplantest.DayPlanAddactionTest.overviewelement;
@@ -32,7 +36,7 @@ import static utilities.TakeScreenshot.takeScreenshot;
 
 public class SampleTestScript {
 
-    DyplnMveActionElement dayplanelements = new DyplnMveActionElement(driver);
+
     // public static Reportsextend extend = new Reportsextend();
     ExtentHtmlReporter htmlReporter;
     ExtentReports extent;
@@ -42,11 +46,43 @@ public class SampleTestScript {
     ExtentTest logger;
 
 
+
     @Test
+    public void  testrandam()
+    {
+        String randaomname = getSaltString();
+        System.out.println("randam string = " + randaomname);
+    }
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+         String adding = null;
+        int howmanystring = 5;
+        for (int i = 1; i <= howmanystring; i++)
+        {
+           // System.out.println("length of string = " + SALTCHARS.length());
+            StringBuilder salt = new StringBuilder();
+            Random rnd = new Random();
+            while (salt.length() < 5)
+            { // length of the random string.
+                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+                salt.append(SALTCHARS.charAt(index));
+            }
+            String saltStr = salt.toString();
+            adding = saltStr + "@gmail.com";
+            //System.out.println("length of string = " + saltStr.length());
+
+           String dradding  = adding;
+
+        }
+
+        return adding;
+    }
+
+    @Test(enabled = false)
     public void dayPlanMovectionTest(ITestResult result) throws InterruptedException, IOException {
 
         htmlReporter = new ExtentHtmlReporter("C:\\Users\\Admin\\IdeaProjects\\Project\\Extent-Reports/report.html");
-
+        DyplnMveActionElement dayplanelements = new DyplnMveActionElement(driver);
         extent = new ExtentReports();
         extent.attachReporter(htmlReporter);
         extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
@@ -285,15 +321,46 @@ public class SampleTestScript {
         }else {
             System.out.println("Action moved but count not update ");
         }*/
-        @AfterMethod
+        /*@AfterMethod
         public void tearDown(ITestResult result) throws IOException {
 
             failTestScreenShots sreenshot = new failTestScreenShots();
             sreenshot.failscreenshot(driver,result);
 
 
+        }*/
+
+
+    @DataProvider
+
+    public Object[][] membrdata() throws IOException {
+
+        FileInputStream fileInputStream = new FileInputStream("files/projectentrydata.xls");//copy path of Exelsheet here
+
+        HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream); //create object for workbook
+
+        HSSFSheet worksheet = workbook.getSheet("Member"); // get the proper sheet from exel
+
+        int rowcount = worksheet.getPhysicalNumberOfRows();
+
+        System.out.println("total number of row present = " +rowcount);
+
+        String[][] data = new String[rowcount-1][1];
+        for (int i =1; i < rowcount; i++) {
+            HSSFRow row = worksheet.getRow(i);
+
+            HSSFCell projectname = row.getCell(0);
+
+            if (projectname == null)
+                data[i-1][0] = "";
+            else {
+                projectname.setCellType(CellType.STRING);// to convert numbers into string we use setCell type
+                data[i-1][0] = projectname.getStringCellValue();
+            }
         }
 
+        return data;
+    }
 
     }
 

@@ -7,9 +7,15 @@ import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.relevantcodes.extentreports.LogStatus;
 import functional.departmenttest.AddDepartmentTest;
 import functional.login.LoginTst;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.projectpage.AddProjectElement;
@@ -17,6 +23,8 @@ import utilities.NewExtendReport;
 import utilities.Reportsextend;
 import static functional.login.LoginTst.driver;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import static utilities.NewExtendReport.*;
@@ -56,7 +64,7 @@ public class AddprojectTest
        extent.flush();
    }
 
-    @Test(priority = 2,enabled = true)
+    @Test(priority = 2, enabled = true)
     public void addProjectName() throws InterruptedException
     {
         logger2 =  extent.createTest("Open Add Project form Test");
@@ -64,11 +72,13 @@ public class AddprojectTest
         projectpage.createproject();
         logger2.log(Status.PASS, MarkupHelper.createLabel("Click  on add project button ", ExtentColor.GREEN));
 
+        Thread.sleep(1000);
+
         projectpage.selectdptname();
 
         Thread.sleep(100);
 
-        projectpage.enterprojectname();
+        projectpage.enterprojectname(proertiflename.getString("projectname"));
 
         logger2.log(Status.PASS, MarkupHelper.createLabel("Project title entered ", ExtentColor.GREEN));
 
@@ -94,7 +104,9 @@ public class AddprojectTest
             logger2.log(Status.PASS, MarkupHelper.createLabel("Project name save successfully", ExtentColor.GREEN));
         }
 
-        extent.flush();
+
+
+         extent.flush();
     }
 
     @Test(priority = 3,enabled = true)
@@ -110,11 +122,15 @@ public class AddprojectTest
 
         addprojecttest.addUserDetailsTest(logger3,proertiflename.getString("projectuser1"));
 
+        dashboardpage.lftPanelPjectLnk();
+
+        Thread.sleep(1000);
+
         extent.flush();
 
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4,enabled = true)
     public void addProjctMembr() throws InterruptedException
     {
         logger4 =  extent.createTest("Add Project manager Test");
@@ -126,6 +142,10 @@ public class AddprojectTest
         AddprojectTest addprojecttest =new AddprojectTest();
 
         addprojecttest.addUserDetailsTest(logger4,proertiflename.getString("projectuser2"));
+
+        dashboardpage.lftPanelPjectLnk();
+
+        Thread.sleep(1000);
 
         extent.flush();
     }
@@ -164,3 +184,5 @@ public class AddprojectTest
             }
         }
 }
+
+
