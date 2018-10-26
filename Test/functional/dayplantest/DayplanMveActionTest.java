@@ -1,282 +1,249 @@
 package functional.dayplantest;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.configuration.ChartLocation;
-import com.aventstack.extentreports.reporter.configuration.Theme;
-import com.relevantcodes.extentreports.LogStatus;
-import functional.landingpagetest.SelectCompanyTest;
-import functional.login.LoginTest;
-import functional.login.TestcaseLogin;
+import functional.login.LoginTst;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import pages.actionspage.AddactionOverviewElement;
 import pages.dashboardpage.DashboardPagElement;
 import pages.dayplanpage.DyplnMveActionElement;
 import utilities.NewExtendReport;
-import utilities.Reportsextend;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-
-import static functional.login.TestcaseLogin.driver;
 import static utilities.NewExtendReport.*;
-import static utilities.Reportsextend.test;
+import static functional.login.LoginTst.driver;
 
 public class DayplanMveActionTest
 {
-    DyplnMveActionElement dayplanelements = new DyplnMveActionElement(driver);
+    public static DyplnMveActionElement dayplanelements = new DyplnMveActionElement(LoginTst.driver);
+    public static DashboardPagElement dashboardpage = new DashboardPagElement(LoginTst.driver);
 
+    NewExtendReport addpersonaltask =  new NewExtendReport();
 
     @BeforeTest
-    public void loginTest() throws IOException, InterruptedException
+    public void loginTest() throws InterruptedException
     {
 
+        addpersonaltask.newReport("Day Plan move Action Test","Day_Plan_move_Action_Report");
+        logger =  extent.createTest("Login Test ");
+        LoginTst logintest = new LoginTst();
+        logintest.loginTestNew();
+        logger.log(Status.PASS, MarkupHelper.createLabel("User login  successfully", ExtentColor.GREEN));
+        logger.log(Status.PASS, MarkupHelper.createLabel("Company select successfully", ExtentColor.GREEN));
+        extent.flush();
+    }
+    @Test(priority = 1)
+    public void linkDayplan() throws InterruptedException
+    {
+        logger4 =  extent.createTest("Open Day plan module test");
+        //dashboard page element object created
 
-        NewExtendReport reports = new NewExtendReport();
-        reports.newReport("Day plan test","DayPlanActionMovingTest");
-        NewExtendReport.logger = NewExtendReport.extent.createTest("Login test");
-
-
-        //extend.reports("Day Plan Automation test Report");
-        //extend.reports("Day Plan  Action count report Before move and after move");
-
-
-        TestcaseLogin logintest = new TestcaseLogin();    //login test object created
-
-        logintest.validlogintest();
-        NewExtendReport.logger.log(Status.PASS, MarkupHelper.createLabel("User Login successfully", ExtentColor.GREEN));
-
-        SelectCompanyTest selectcompy = new SelectCompanyTest();    // //select company object created
-
-        selectcompy.selectcompanuydropdown();
-        NewExtendReport.logger.log(Status.PASS, MarkupHelper.createLabel("Company select successfully", ExtentColor.GREEN));
-
-
-        DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
-        Thread.sleep(500);
         dashboardpage.lnkDayPlan();
-         NewExtendReport.logger.log(Status.PASS, MarkupHelper.createLabel("Successefully click on day plan link", ExtentColor.GREEN));
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("Successfully click on Day plan Module",ExtentColor.GREEN));
+
+        Thread.sleep(500);
+
+        dayplanelements.clickMyAction();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("Successfully disable the My action filter option",ExtentColor.GREEN));
 
         extent.flush();
+    }
 
+
+
+
+    @Test(priority = 2,enabled = true)
+    public void moveActionintoTodaydate() throws InterruptedException
+    {
+        logger1 = NewExtendReport.extent.createTest("Action move into todays day plan");
+
+        logger1.log(Status.PASS, MarkupHelper.createLabel("Move Actions into Today Day Plan", ExtentColor.BLACK));
+
+        moveCriticalAction(logger1);
+
+        moveImportantAction(logger1);
+
+        moveLessImportantAction(logger1);
+
+        extent.flush();
 
     }
 
 
-    public void moveAction(ExtentTest logg) throws InterruptedException
+    @Test(priority = 3,enabled = true)
+    public void moveActionNextdate() throws InterruptedException
     {
 
+
+        logger2 = NewExtendReport.extent.createTest("Action move into next date day plan");
+
+        dayplanelements.selectNxtMonthCurntDate();
+
         Thread.sleep(500);
+
         dayplanelements.clickMyAction();
-        logg.log(Status.PASS, MarkupHelper.createLabel("Disable the my action filter", ExtentColor.GREEN));
 
-        Thread.sleep(900);
+        logger2.log(Status.PASS, MarkupHelper.createLabel("* Successfully Select Next Month date *", ExtentColor.BLACK));
 
-//critical section
+        moveCriticalAction(logger2);
 
-        int befrecritclcount = dayplanelements.dueActionCountImportnt(1,11);   //critical action count before moving
-        logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action, Critical due action count ="+befrecritclcount, ExtentColor.GREEN));
+        moveImportantAction(logger2);
 
-       try {
-           int befredayplancri = dayplanelements.dayPlanActionCount(1, 11);
-           logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action into day plan, Critical Day Plan count ="+befredayplancri, ExtentColor.GREEN));
+        moveLessImportantAction(logger2);
 
-       }catch (Exception  e)
-       {
-           logg.log(Status.FAIL, MarkupHelper.createLabel("Before moving Action into day plan, Critical Day Plan count not present", ExtentColor.RED));
-           System.out.println("fail");
-       }
+        extent.flush();
+
+    }
+
+    @Test(priority = 4,enabled = true)
+    public void moveActionPastDate() throws InterruptedException
+
+    {
+        logger3 = NewExtendReport.extent.createTest("Action move into previous date day plan");
+
+        dayplanelements.dayPlanSelectpastDate();
+
+        Thread.sleep(500);
+
+        dayplanelements.clickMyAction();
+
+        logger3.log(Status.PASS, MarkupHelper.createLabel("* Successfully Select previous Month date * *", ExtentColor.BLACK));
+
+        moveCriticalAction(logger3);
+
+        moveImportantAction(logger3);
+
+        moveLessImportantAction(logger3);
+
+        extent.flush();
+
+    }
+
+    public void moveCriticalAction(ExtentTest logg) throws InterruptedException
+    {
+        Thread.sleep(500);
+
+        int befrecritclcount = dayplanelements.getCriticalCount(); //critical action count before moving
+        logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action, Critical due action count =" + befrecritclcount, ExtentColor.GREEN));
+
+        try {
+            int befredayplancri = dayplanelements.getDayPlanCriticalCount();
+            logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action into day plan, Critical Day Plan count =" + befredayplancri, ExtentColor.GREEN));
+
+        } catch (Exception e) {
+            logg.log(Status.FAIL, MarkupHelper.createLabel("Before moving Action into day plan, Critical Day Plan count not present", ExtentColor.RED));
+            System.out.println("fail");
+        }
 
         Thread.sleep(900);
         dayplanelements.moveCricalAction();
-          logg.log(Status.PASS, MarkupHelper.createLabel("Successfully  move the critical action", ExtentColor.GREEN));
+        logg.log(Status.PASS, MarkupHelper.createLabel("Successfully  move the critical action", ExtentColor.GREEN));
 
         Thread.sleep(700);
 
-        int aftercritclcount = dayplanelements.dueActionCountImportnt(1,11);     //critical action count after moving
-        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action, Critical due action count ="+aftercritclcount, ExtentColor.GREEN));
+        int aftercritclcount = dayplanelements.getCriticalCount();     //critical action count after moving
+        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action, Critical due action count =" + aftercritclcount, ExtentColor.GREEN));
 
-        int afterdayplancri = dayplanelements.dayPlanActionCount(1,11);
-        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action into day plan, Critical Day Plan count ="+afterdayplancri, ExtentColor.GREEN));
+        int afterdayplancri = dayplanelements.getDayPlanCriticalCount();
+        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action into day plan, Critical Day Plan count =" + afterdayplancri, ExtentColor.GREEN));
 
 
-        if(befrecritclcount!=aftercritclcount)
-        {
+        if (befrecritclcount != aftercritclcount) {
             logg.log(Status.PASS, MarkupHelper.createLabel("Critical Action move successfully and count update", ExtentColor.GREEN));
-            System.out.println("Critical Action move successfully and count update ");
-        }else
-            {
-                logg.log(Status.FAIL, MarkupHelper.createLabel("Action moved but count not update ", ExtentColor.BLUE));
-                System.out.println("Action moved but count not update ");
-             }
 
+        } else
+        {
+            logg.log(Status.FAIL, MarkupHelper.createLabel("Action moved but count not update ", ExtentColor.BLUE));
+        }
 
+    }
 
-//important section
+    public void moveImportantAction(ExtentTest logg) throws InterruptedException {
 
         Thread.sleep(1000);
 
-        int befreimpotntcount = dayplanelements.dueActionCountImportnt(2,12);   //important action count before moving
-        logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action, Important due action count ="+befreimpotntcount, ExtentColor.GREEN));
+        int befreimpotntcount = dayplanelements.getImportntCount();   //important action count before moving
+        logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action, Important due action count =" + befreimpotntcount, ExtentColor.GREEN));
 
-       try
-       {
-        int befredayplanimpotnt = dayplanelements.dayPlanActionCount(2,12);
-           logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action into day plan, Important Day Plan count ="+befredayplanimpotnt, ExtentColor.GREEN));
+        try {
+            int befredayplanimpotnt = dayplanelements.getDayPlanImportntCount();
+            logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action into day plan, Important Day Plan count =" + befredayplanimpotnt, ExtentColor.GREEN));
 
-          }catch (Exception  e)
-       {
-           logg.log(Status.FAIL, MarkupHelper.createLabel("Before moving Action into day plan, Important Day Plan count not found", ExtentColor.BLUE));
-           System.out.println("fail"); }
+
+        } catch (Exception e) {
+            logg.log(Status.FAIL, MarkupHelper.createLabel("Before moving Action into day plan, Important Day Plan count not found", ExtentColor.BLUE));
+        }
         Thread.sleep(500);
 
         dayplanelements.moveImportntAction();
         logg.log(Status.PASS, MarkupHelper.createLabel("Successfully Move important action into day plan", ExtentColor.GREEN));
 
-
         Thread.sleep(700);
 
-        int afterimpotntcount = dayplanelements.dueActionCountImportnt(2,12);   //important action count after moving
-        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action, Important due action count ="+afterimpotntcount, ExtentColor.GREEN));
-        //test.log(LogStatus.INFO,"After moving Action, Important due action count ="+afterimpotntcount);
+        int afterimpotntcount = dayplanelements.getImportntCount();   //important action count after moving
+        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action, Important due action count =" + afterimpotntcount, ExtentColor.GREEN));
 
-        int afterdayplanimpotnt = dayplanelements.dayPlanActionCount(2,12);
-        //extend.test.log(LogStatus.INFO,"After moving Action into day plan, Important Day Plan count ="+afterdayplanimpotnt);
-        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action into day plan, Important Day Plan count ="+afterdayplanimpotnt, ExtentColor.GREEN));
+        int afterdayplanimpotnt = dayplanelements.getDayPlanImportntCount();
+        logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action into day plan, Important Day Plan count =" + afterdayplanimpotnt, ExtentColor.GREEN));
 
-        if(befreimpotntcount!=afterimpotntcount)
-        {
-           // test.log(LogStatus.INFO,"Important Action move successfully and count update ");
+        if (befreimpotntcount != afterimpotntcount) {
             logg.log(Status.PASS, MarkupHelper.createLabel("Important Action move successfully and count update ", ExtentColor.GREEN));
-            System.out.println("Important Action move successfully and count update ");
-        }else
-        {
-            //test.log(LogStatus.INFO,"Action moved but count not update");
+        } else {
             logg.log(Status.FAIL, MarkupHelper.createLabel("Action moved but count not update", ExtentColor.BLUE));
-            System.out.println(" ");
         }
 
+    }
 
-
-//Less important section
+    public void moveLessImportantAction(ExtentTest logg) throws InterruptedException
+    {
 
         Thread.sleep(1000);
 
-        int befrelessimpotntcount = dayplanelements.dueActionCountImportnt(3,17);      //less important action count before moving
+        int befrelessimpotntcount = dayplanelements.getLessImportntCount();      //less important action count before moving
         logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action, Less Important due action count ="+befrelessimpotntcount, ExtentColor.GREEN));
-        //test.log(LogStatus.INFO,"Before moving Action, Less Important due action count ="+befrelessimpotntcount);
 
         try
         {
-           int befredayplanlessimpotnt = dayplanelements.dayPlanActionCount(3,17);
+            int befredayplanlessimpotnt = dayplanelements.getDayPlanLessImportntCount();
             logg.log(Status.PASS, MarkupHelper.createLabel("Before moving Action into day plan, Less Important Day Plan count ="+befredayplanlessimpotnt, ExtentColor.GREEN));
-            //extend.test.log(LogStatus.INFO,"Before moving Action into day plan, Less Important Day Plan count ="+befredayplanlessimpotnt);
-               }catch (Exception  e){
-            logg.log(Status.FAIL, MarkupHelper.createLabel("Before moving Action into day plan, Less Important Day Plan count not found", ExtentColor.BLUE));
-               System.out.println("fail");
 
-                 }
+        }catch (Exception  e)
+        {
+            logg.log(Status.FAIL, MarkupHelper.createLabel("Before moving Action into day plan, Less Important Day Plan count not found", ExtentColor.BLUE));
+
+        }
+
         Thread.sleep(500);
 
         dayplanelements.moveLessImportntAction();
         logg.log(Status.PASS, MarkupHelper.createLabel("Successfully Move less Important action into day plan", ExtentColor.GREEN));
-        //test.log(LogStatus.INFO,"Successfully Move less Important action into day plan");
 
         Thread.sleep(700);
-        int afterlessimpotntcount = dayplanelements.dueActionCountImportnt(3,17);      //less important action count after moving
+        int afterlessimpotntcount = dayplanelements.getLessImportntCount();      //less important action count after moving
         logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action, Less Important due action count ="+afterlessimpotntcount, ExtentColor.GREEN));
-        //test.log(LogStatus.INFO,"After moving Action, Less Important due action count ="+afterlessimpotntcount);
 
-        int afterdayplanlessimpotnt = dayplanelements.dayPlanActionCount(3,17);
+
+        int afterdayplanlessimpotnt = dayplanelements.getDayPlanLessImportntCount();
         logg.log(Status.PASS, MarkupHelper.createLabel("After moving Action into day plan, Important Day Plan count ="+afterdayplanlessimpotnt, ExtentColor.GREEN));
-        //extend.test.log(LogStatus.INFO,"After moving Action into day plan, Important Day Plan count ="+afterdayplanlessimpotnt);
+
 
         if(befrelessimpotntcount!=afterlessimpotntcount)
         {
-            //test.log(LogStatus.INFO,"Less Important Action move successfully and count update ");
             logg.log(Status.PASS, MarkupHelper.createLabel("Less Important Action move successfully and count update", ExtentColor.GREEN));
-            System.out.println("Important Action move successfully and count update ");
         }else
         {
-            //test.log(LogStatus.INFO,"Action moved but count not update");
             logg.log(Status.FAIL, MarkupHelper.createLabel("Action moved but count not update =", ExtentColor.BLUE));
-            System.out.println("Action moved but count not update ");
         }
 
         extent.flush();
-    }
-
-    @Test(priority = 1)
-    public void moveActionintoTodaydate() throws InterruptedException
-    {
-        logger1 = NewExtendReport.extent.createTest("Action move into todays day plan");
-        //extend.reports("Moving Actions into today Day Plan");
-        //test.log(LogStatus.INFO,"Move Actions into Today Day Plan");
-        logger1.log(Status.PASS, MarkupHelper.createLabel("Move Actions into Today Day Plan", ExtentColor.BLACK));
-
-        DayplanMveActionTest moveactiontest = new DayplanMveActionTest();
-
-        moveactiontest.moveAction(logger1);
-        extent.flush();
-
-
-    }
-
-
-    @Test(priority = 2)
-    public void moveActionNextdate() throws InterruptedException
-    {
-        //extend.reports("Moving Actions into Next Month Day Plan");
-
-        logger2 = NewExtendReport.extent.createTest("Action move into next date day plan");
-        dayplanelements.dayPlanSelectNextDate();
-
-        logger2.log(Status.PASS, MarkupHelper.createLabel("* Successfully Select Next Month date *", ExtentColor.BLACK));
-       // test.log(LogStatus.INFO,"* Successfully Select Next Month date *");
-
-        DayplanMveActionTest moveactiontest = new DayplanMveActionTest();
-
-        moveactiontest.moveAction(logger2);
-        extent.flush();
-
-
-
-
-    }
-    @Test(priority = 3)
-    public void moveActionPastDate() throws InterruptedException
-
-    {
-        logger3 = NewExtendReport.extent.createTest("Action move into previous date day plan");
-        //extend.reports("Moving Actions into Previous Month Day Plan");
-
-        dayplanelements.dayPlanSelectpastDate();
-
-        logger3.log(Status.PASS, MarkupHelper.createLabel("* Successfully Select previous Month date * *", ExtentColor.BLACK));
-        //test.log(LogStatus.INFO,"  * Successfully Select previous Month date * ");
-
-        DayplanMveActionTest moveactiontest = new DayplanMveActionTest();
-
-        moveactiontest.moveAction(logger3);
-        extent.flush();
-
     }
 
     @AfterTest
     public void testend()
     {
-        //test.log(LogStatus.INFO,"Action successfully move into Day plan");
-        //logger.log(Status.PASS, MarkupHelper.createLabel("Action successfully move into Day plan", ExtentColor.BLACK));
-        //Reportsextend.extend.endTest(extend.test);
-       // Reportsextend.extend.flush();
-        //extent.flush();
 
     }
 }

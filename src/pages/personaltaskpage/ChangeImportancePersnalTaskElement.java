@@ -60,10 +60,10 @@ public class ChangeImportancePersnalTaskElement
                 if(getimportancename.equals(propetiesfile.getString("personaltaskimportance")))
                 {
                     driver.findElement(By.xpath("//ul/li/div[4]/span[1]/tamplo-icon-select/span/div/ul/li[" + i + "][@class='ng-scope']")).click();
-                    loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully select the " +propetiesfile.getString("personaltaskimportance")+ " status", ExtentColor.GREEN));
+                    loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully select the " +propetiesfile.getString("personaltaskimportance")+ " importance", ExtentColor.GREEN));
                     break;
                 }else {
-                    System.out.println("Status name not  match");
+                    System.out.println("importance name not  match");
 
                 }
             }

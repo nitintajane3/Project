@@ -94,7 +94,7 @@ public class DeletePersonalTaskTest
 
         deltepersnaltaskelement.editBtnImportnt();
 
-        logger3.log(Status.PASS, MarkupHelper.createLabel("Critical Personal task select by title", ExtentColor.GREEN));
+        logger3.log(Status.PASS, MarkupHelper.createLabel("important Personal task select by title", ExtentColor.GREEN));
 
         logger3.log(Status.PASS, MarkupHelper.createLabel("Click on edit button", ExtentColor.GREEN));
 
@@ -124,7 +124,7 @@ public class DeletePersonalTaskTest
 
         deltepersnaltaskelement.editBtnLessImportntTest();
 
-        logger4.log(Status.PASS, MarkupHelper.createLabel("Critical Personal task select by title", ExtentColor.GREEN));
+        logger4.log(Status.PASS, MarkupHelper.createLabel("less important Personal task select by title", ExtentColor.GREEN));
 
         logger4.log(Status.PASS, MarkupHelper.createLabel("Click on edit button", ExtentColor.GREEN));
 

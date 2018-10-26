@@ -32,7 +32,7 @@ public class ChngeImportancePernalTaskTest
     public void loginTest() throws InterruptedException
     {
 
-        addpersonaltask.newReport("Change personal task Status test","change_personal_Task_status_test_report");
+        addpersonaltask.newReport("Change personal task importance test","change_personal_Task_importance_test_report");
         logger =  extent.createTest("Login Test ");
         LoginTst logintest = new LoginTst();
         logintest.loginTestNew();
@@ -54,13 +54,13 @@ public class ChngeImportancePernalTaskTest
     @Test(priority = 2,enabled = true)
     public void delteCriticalTaskTest() throws InterruptedException
     {
-        logger2 =  extent.createTest("Change Importance of personal task  step");
+        logger2 =  extent.createTest("Change Importance of critical personal task  step");
 
         String variblename = "Critical";
 
         int befrecrircalPersonalcount = addpersnaltaskelemet.getCriticalCount();
 
-        logger2.log(Status.PASS,MarkupHelper.createLabel("before change Critical personal task Importance count is = " + befrecrircalPersonalcount,ExtentColor.GREEN));
+        logger2.log(Status.PASS,MarkupHelper.createLabel("before change Importance of Critical personal task  count is = " + befrecrircalPersonalcount,ExtentColor.GREEN));
 
         Thread.sleep(500);
 
@@ -68,23 +68,79 @@ public class ChngeImportancePernalTaskTest
 
         logger2.log(Status.PASS, MarkupHelper.createLabel("Critical Personal task select  by title", ExtentColor.GREEN));
 
-        logger2.log(Status.PASS, MarkupHelper.createLabel("Click on importance button", ExtentColor.GREEN));
-
         ChangeImportanceTest(logger2);
 
         Thread.sleep(500);
 
         int aftrcrircalPersonalcount = addpersnaltaskelemet.getCriticalCount();
 
-        logger2.log(Status.PASS,MarkupHelper.createLabel("after change Critical personal task importance count is = " + aftrcrircalPersonalcount,ExtentColor.GREEN));
+        logger2.log(Status.PASS,MarkupHelper.createLabel("after change importance of Critical personal task  count is = " + aftrcrircalPersonalcount,ExtentColor.GREEN));
 
         extent.flush();
 
     }
 
+    @Test(priority = 3,enabled = true)
+    public void delteImportntTaskTest() throws InterruptedException
+    {
+        logger3 =  extent.createTest("Change importance of important personal task Status step");
+
+        String variblename = "Important";
+
+        int befreimportnatPersonalcount = addpersnaltaskelemet.getImportntCount();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("before change importance of important personal task count is = " + befreimportnatPersonalcount,ExtentColor.GREEN));
+
+
+        deltepersnaltaskelement.editBtnImportnt();
+
+        logger3.log(Status.PASS, MarkupHelper.createLabel("important Personal task select by title", ExtentColor.GREEN));
+
+        ChangeImportanceTest(logger3);
+
+        Thread.sleep(500);
+
+        int aftrimportnatPersonalcount = addpersnaltaskelemet.getImportntCount();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("after change importance of important personal task count is = " + aftrimportnatPersonalcount,ExtentColor.GREEN));
+
+
+        extent.flush();
+    }
+
+    @Test(priority = 4,enabled = true)
+    public void delteLessImportntTaskTest() throws InterruptedException
+    {
+        logger4 =  extent.createTest("Change importance of less important  personal task  step");
+
+        String variblename = "Less Important";
+
+        int befrelessimportnatPersonalcount = addpersnaltaskelemet.getLessImportntCount();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("before change importance of less important personal task count is = " + befrelessimportnatPersonalcount,ExtentColor.GREEN));
+
+
+        deltepersnaltaskelement.editBtnLessImportntTest();
+
+        logger4.log(Status.PASS, MarkupHelper.createLabel("less important Personal task select by title", ExtentColor.GREEN));
+
+        ChangeImportanceTest(logger4);
+
+        Thread.sleep(500);
+
+        int afterlessimportnatPersonalcount = addpersnaltaskelemet.getLessImportntCount();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("after change importance of less important personal task  count is = " + afterlessimportnatPersonalcount,ExtentColor.GREEN));
+
+
+        extent.flush();
+    }
+
     public void ChangeImportanceTest(ExtentTest loogername)
     {
         importnceelement.btnImportance();
+
+        loogername.log(Status.PASS,MarkupHelper.createLabel("Successfully click on importance button",ExtentColor.GREEN));
 
         importnceelement.selectImportance(loogername);
     }

@@ -21,6 +21,7 @@ public class AddactionOverviewElement
     public static JavascriptExecutor scriptexecutoroverview;
     ResourceBundle proptiesdeprtment = ResourceBundle.getBundle("Departmentame");
     ResourceBundle propertyfile = ResourceBundle.getBundle("actiondetails");
+    ResourceBundle tamplofile = ResourceBundle.getBundle("tamplo5");
 
 
     public AddactionOverviewElement(WebDriver driver)
@@ -250,7 +251,7 @@ public class AddactionOverviewElement
 
         int assgineecount = assignecount.size();
         System.out.println("list of prject"+assgineecount);
-        String expectedassgine = propertyfile.getString("assginee3");
+        String expectedassgine = tamplofile.getString("assigneename");
         for (int i = 1; i <= assgineecount; i++)
         {
 

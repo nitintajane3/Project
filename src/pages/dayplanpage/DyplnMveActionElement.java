@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utilities.GetActionCount;
 
 import javax.swing.plaf.TableHeaderUI;
 import java.util.Calendar;
@@ -15,7 +16,7 @@ import java.util.TimeZone;
 public class DyplnMveActionElement
 {
     WebDriver driver;
-    private String today;
+    private int today;
     public String disablecount;
     private String date = "28";
     private int critcalmove=1;
@@ -23,6 +24,7 @@ public class DyplnMveActionElement
     private int lessimportntmove=1;
     ResourceBundle proptiesdeprtment = ResourceBundle.getBundle("Departmentame");
     ResourceBundle propertyfile = ResourceBundle.getBundle("actiondetails");
+    ResourceBundle tamploprotperties = ResourceBundle.getBundle("tamplo5");
 
     public DyplnMveActionElement(WebDriver driver)
     {
@@ -81,63 +83,68 @@ public class DyplnMveActionElement
     @FindBy(xpath = "//div[@class='moment-picker-container month-view open']/div/table/tbody/tr")
     List<WebElement> countrow;
 
+    @FindBy(xpath = "//div[@class='projectActionsWidgetContainer']/div/div[1]/div[1]/h2")
+    WebElement criticalgettxt;
 
-public int dueActionCountImportnt(int i,int j)
+    @FindBy(xpath = "//div[@class='projectActionsWidgetContainer']/div/div[2]/div[1]/h2")
+    WebElement importantgettxt;
 
-   {
-       //i=1,2,3 and j=11,12,17
-       //int 1 and 11 critical
-       //int 2 and 12 important
-       //int 3 and 17 less important
+    @FindBy(xpath = "//div[@class='projectActionsWidgetContainer']/div/div[3]/div[1]/h2")
+    WebElement lessimportantgettxt;
 
-       WebElement actionscountbefore = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer']/div/div["+i+"]/div[1]/h2"));
-       String wholestringname = actionscountbefore.getText();
-       System.out.println("get text from "+wholestringname+ "length of action "+wholestringname.length());
-       String last2 = (wholestringname.substring(wholestringname.length()-3));
+    @FindBy(xpath = "//div[@class='projectActionsWidgetContainer ng-scope']/div/div[1]/div[1]/h2")
+    WebElement txtdayplancritical;
 
-       String removeingspace = last2.replaceAll("-","").trim();
+    @FindBy(xpath = "//div[@class='projectActionsWidgetContainer ng-scope']/div/div[2]/div[1]/h2")
+    WebElement txtdayplanimportant;
 
-       //System.out.println("after apply replaceall="+removeingspace+"lengthofstrong="+removeingspace.length());
-      // System.out.println("it will print last two  character="+last2+"length of charvter");
-       //char beforemvingcoount = wholestringname.charAt(j);
+    @FindBy(xpath = "//div[@class='projectActionsWidgetContainer ng-scope']/div/div[3]/div[1]/h2")
+    WebElement txtdayplanlessimportant;
 
-      // System.out.println("beofee moving char"+beforemvingcoount);
-      int var1 =Integer.parseInt(String.valueOf(removeingspace));
-      // int var11 = Character.getNumericValue(beforemvingcoount);
-       System.out.println("due actio  count after ="+var1);
-       return var1;
 
-   }
 
-    public int dayPlanActionCount(int k,int l)
 
+    public int  getCriticalCount() throws InterruptedException
     {
-        //k=1,2,3 and l=11,12,17
-        //int 1 and 11 critical
-        //int 2 and 12 important
-        //int 3 and 17 less important
-
-        WebElement dayplanaction = driver.findElement(By.xpath("//div[@class='projectActionsWidgetContainer ng-scope']/div/div["+k+"]/div[1]/h2"));
-        String dayplanstring = dayplanaction.getText();
-        //char dayplanactionnum = dayplanstring.charAt(l);
-
-        String dayplanactiondeault = (dayplanstring.substring(dayplanstring.length()-3));
-
-        String removeingspace2 = dayplanactiondeault.replaceAll("-","").trim();
-
-        //int convertnumberw = Character.getNumericValue(dayplanactionnum);
-
-        int convertnumber =Integer.parseInt(String.valueOf(removeingspace2));
-
-        System.out.println("due actio  count after ="+convertnumber);
-        return convertnumber;
+        int counte = GetActionCount.Count(criticalgettxt);
+        return counte;
     }
 
+    public int  getDayPlanCriticalCount() throws InterruptedException
+    {
+        int counte = GetActionCount.Count(txtdayplancritical);
+        return counte;
+    }
+
+    public int  getImportntCount() throws InterruptedException
+    {
+        int counte = GetActionCount.Count(importantgettxt);
+        return counte;
+    }
+
+    public int  getDayPlanImportntCount() throws InterruptedException
+    {
+        int counte = GetActionCount.Count(txtdayplanimportant);
+        return counte;
+    }
+
+    public int  getLessImportntCount() throws InterruptedException
+    {
+        int counte = GetActionCount.Count(lessimportantgettxt);
+        return counte;
+    }
+
+    public int  getDayPlanLessImportntCount() throws InterruptedException
+    {
+        int counte = GetActionCount.Count(txtdayplanlessimportant);
+        return counte;
+    }
 
     public void clickMyAction() throws InterruptedException {
         Thread.sleep(1000);
         myaction.click();
     }
+
     public void moveCricalAction()
     {
         for(int i=1;i<=critcalmove;i++)
@@ -183,52 +190,36 @@ public int dueActionCountImportnt(int i,int j)
         }
     }
 
-    public void dayPlanSelectNextDate() throws InterruptedException {
+    public void selectNxtMonthCurntDate() throws InterruptedException
+    {
+        today=getCurrentDay();
         datechangeicon.click();
         nextmonthdate.click();
-        today=getCurrentDay();
-        System.out.println("today date is ="+today);
         int getrows = countrow.size();
-        System.out.println("number of rows"+getrows);
-
         try
         {
-        for(int i=1;i<=getrows;i++)
-        {
-              for(int j=1;j<=7;j++)
+            for(int i=1;i<=getrows;i++)
+            {
+                for(int j=1;j<=7;j++)
                 {
-                    Thread.sleep(300);
-
-                    System.out.println("actual i value " + i + "actual j value" + j);
-
-
                     try
                     {
-                        WebElement disabledate = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[1]/td["+j+"][@class='ng-binding ng-scope disabled']"));
-                        disablecount = disabledate.getText();
-                        boolean checkeement = disabledate.isEnabled();
-                        System.out.println("disable date"+disablecount);
-                    }catch (Exception e){System.out.println("does not found any disable  date");}
-
-
-                    WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
-                    String actualdate = actualnuumber.getText();
-                    System.out.println("actual date" + actualdate);
-                    if (actualdate.equals(today))
-                    {
-                        //if(disablecount.equals())
-                        actualnuumber.click();
-                        System.out.println("click on actual date");
-
-                    }
-
+                        WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "][@class='ng-binding ng-scope']"));
+                        String actualdate = actualnuumber.getText();
+                        if (Integer.valueOf(actualdate).equals(today))
+                        {
+                            actualnuumber.click();
+                            break;
+                        }
+                    }catch (Exception outp){}
                 }
+            }
+        }catch (Exception expetin)
 
-        }
-        }catch (Exception e)
         {
-            System.out.println("Date does  not found");
+            System.out.println("not fund start date ");
         }
+
 
     }
 
@@ -249,36 +240,11 @@ public int dueActionCountImportnt(int i,int j)
 
     public void enterActiontitle()
     {
-        actiontitleonpopup.sendKeys(propertyfile.getString("actiontitle4"));
+        actiontitleonpopup.sendKeys(tamploprotperties.getString("personaltasktitle"));
     }
 
-    public void selectduedate() throws InterruptedException
-    {
-        today=getCurrentDay();
-        System.out.println("today date is ="+today);
-        duedate.click();
 
-        System.out.println("date click  on successfully");
-        int getrows = findnorows.size();
-        System.out.println("number of rows"+getrows);
-        for(int i=1;i<=getrows;i++)
-        {
-            for(int j=1;j<=7;j++)
-            {
-                Thread.sleep(300);
-                WebElement actualnuumber = driver.findElement(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span/div/div/table/tbody/tr["+i+"]/td["+j+"]"));
-                String actualdate = actualnuumber.getText();
-                if(actualdate.equals(today))
-                {
-                    actualnuumber.click();
-                    System.out.println("click on actual date");
-                    break;
-                }
-            }
-        }
-    }
-
-    private String getCurrentDay ()
+    private int getCurrentDay ()
     {
         //Create a Calendar Object
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
@@ -288,16 +254,14 @@ public int dueActionCountImportnt(int i,int j)
         System.out.println("Today Int: " + todayInt +"\n");
 
         //Integer to String Conversion
-        String todayStr = Integer.toString(todayInt);
+        int todayStr = todayInt;
         System.out.println("Today Str: " + todayStr + "\n");
 
         return todayStr;
     }
 
     public void selectProjectOvervw() throws InterruptedException {
-        /*JavascriptExecutor excecuteactionproject = (JavascriptExecutor)driver;
 
-        excecuteactionproject.executeScript("arguments[0].click();",selectprojectbtn );*/
 
         projecticon.click();
 
@@ -307,7 +271,7 @@ public int dueActionCountImportnt(int i,int j)
 
         System.out.println("list of projects"+assgineecount);
 
-        String  expectedassgine=proptiesdeprtment.getString("projectname");
+        String  expectedassgine=tamploprotperties.getString("projectname");
 
         for(int i=1;i<=assgineecount;i++)
         {
@@ -334,9 +298,7 @@ public int dueActionCountImportnt(int i,int j)
         previousdate.click();
         previousdate.click();
         today=getCurrentDay();
-        System.out.println("today date is ="+today);
         int getrows = countrow.size();
-        System.out.println("number of rows"+getrows);
 
         try
         {
@@ -345,16 +307,15 @@ public int dueActionCountImportnt(int i,int j)
                 for(int j=1;j<=7;j++)
                 {
                     Thread.sleep(300);
-                    System.out.println("actual i value " + i + "actual j value" + j);
-                    WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
-                    String actualdate = actualnuumber.getText();
-                    System.out.println("actual date" + actualdate);
-                    if (actualdate.equals(today))
-                    {
-                        actualnuumber.click();
-                        System.out.println("click on actual date");
-
-                    }
+                    try {
+                        WebElement actualnuumber = driver.findElement(By.xpath("//div[@class='moment-picker-container month-view open']/div/table/tbody/tr[" + i + "]/td[" + j + "][@class='ng-binding ng-scope']"));
+                        String actualdate = actualnuumber.getText();
+                        if (Integer.valueOf(actualdate).equals(today))
+                        {
+                            actualnuumber.click();
+                            break;
+                        }
+                    }catch (Exception notmatch){}
 
                 }
 

@@ -22,13 +22,9 @@ public class AddactionOverviewTest
     {
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
-        //extend.reports(classname);
-
         TestcaseLogin logintest = new TestcaseLogin();    //login test object created
 
         logintest.validlogintest();
-
-        test.log(LogStatus.INFO,"User  login successfully");
 
         Thread.sleep(2000);
 
@@ -36,19 +32,18 @@ public class AddactionOverviewTest
 
         selectcompy.selectcompanuydropdown();
 
-        test.log(LogStatus.INFO,"Company select successfully");
 
         DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
 
         dashboardpage.lnkaction();
 
-        test.log(LogStatus.INFO,"successfully click on action page");
+        //test.log(LogStatus.INFO,"successfully click on action page");
 
         AddactionOverviewElement overviewelement = new AddactionOverviewElement(driver);     //overview page element object created
 
         overviewelement.linkOverView();
 
-        test.log(LogStatus.INFO,"successfully click on overview");
+        //test.log(LogStatus.INFO,"successfully click on overview");
 
         Thread.sleep(200);
 
@@ -124,8 +119,6 @@ public class AddactionOverviewTest
 
         overviewelement.btnClosedPopup();
 
-        Reportsextend.extend.endTest(test);
-        Reportsextend.extend.flush();
 
     }
 

@@ -1,0 +1,10 @@
+1. date related all method mention in OvrViewAddPesnalTaskElement.class and which is correct
+it contains add action after 8 days,  after 1 month , today and its working good
+2. and we edit the personal by personal task title
+3. In day plan move element.class contains proper method for select next date select previous date
+4. perosnal task change due date class are pending to completed working because in calendar previous date does not disable.
+
+
+
+
+tomarrow = start for day plan move test class last worked for  next date, previous date
