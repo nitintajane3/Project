@@ -5,16 +5,9 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import functional.login.LoginTst;
-import functional.login.TestcaseLogin;
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import pages.actionspage.AddactionOverviewElement;
 import pages.dashboardpage.DashboardPagElement;
-import pages.dayplanpage.DyplnMveActionElement;
-import pages.departmentpage.DectiveDepartmentElement;
-import pages.personaltaskpage.AddPersonalTkElement;
-import pages.personaltaskpage.DeletPersonlTaskEelment;
 import pages.personaltaskpage.OvrViewAddPesnalTaskElement;
 import utilities.NewExtendReport;
 
@@ -25,9 +18,7 @@ public class OvrViewAddPesnalTaskTest
 {
 
     NewExtendReport addpersonaltask =  new NewExtendReport();
-    OvrViewAddPesnalTaskElement overviewaddtaskelement = new OvrViewAddPesnalTaskElement(driver);
-    public static DyplnMveActionElement dayplanelements = new DyplnMveActionElement(TestcaseLogin.driver);
-    public  static AddactionOverviewElement overviewelement = new AddactionOverviewElement(TestcaseLogin.driver);
+    static OvrViewAddPesnalTaskElement overviewaddtaskelement = new OvrViewAddPesnalTaskElement(driver);
     @BeforeTest
     public void loginTest() throws InterruptedException
     {
@@ -258,7 +249,7 @@ public class OvrViewAddPesnalTaskTest
         loggername.log(Status.PASS, MarkupHelper.createLabel(" Pop up closed successfully" , ExtentColor.GREEN));
     }
 
-    public void countCriticalSections(ExtentTest logername) throws InterruptedException
+    public static void countCriticalSections(ExtentTest logername) throws InterruptedException
 
     {
         Thread.sleep(1000);
@@ -281,7 +272,7 @@ public class OvrViewAddPesnalTaskTest
 
     }
 
-    public void countImportantSections(ExtentTest logername) throws InterruptedException
+    public static void countImportantSections(ExtentTest logername) throws InterruptedException
     {
         Thread.sleep(1000);
 
@@ -302,7 +293,7 @@ public class OvrViewAddPesnalTaskTest
         logername.log(Status.PASS, MarkupHelper.createLabel("important next month count is = " + countimportntnextmonth, ExtentColor.GREEN));
     }
 
-    public void countLessImportantSections(ExtentTest logername) throws InterruptedException
+    public static void countLessImportantSections(ExtentTest logername) throws InterruptedException
     {
         Thread.sleep(1000);
 

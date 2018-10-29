@@ -1,126 +1,165 @@
 package functional.actionstest;
 
-import com.relevantcodes.extentreports.LogStatus;
-import functional.landingpagetest.SelectCompanyTest;
-import functional.login.TestcaseLogin;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import functional.login.LoginTst;
+import functional.personaltasktest.OvrViewAddPesnalTaskTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.actionspage.AddactionOverviewElement;
-import pages.dashboardpage.DashboardPagElement;
-import utilities.Reportsextend;
+import pages.actionspage.AddactionProjectElement;
+import pages.dayplanpage.DyplnMveActionElement;
+import pages.personaltaskpage.OvrViewAddPesnalTaskElement;
+import utilities.NewExtendReport;
 
-import java.util.concurrent.TimeUnit;
-
-import static functional.login.TestcaseLogin.driver;
-import static utilities.Reportsextend.test;
+import static functional.dayplantest.DayPlanAddactionTest.dashboardpage;
+import static functional.login.LoginTst.driver;
+import static utilities.NewExtendReport.*;
 
 public class AddactionOverviewTest
 {
-    String classname = "Add Action in Overview from actions page";
+    NewExtendReport addpersonaltask =  new NewExtendReport();
+    AddactionProjectElement actionelment = new AddactionProjectElement(driver);
+    OvrViewAddPesnalTaskElement overviewpersonalTask = new OvrViewAddPesnalTaskElement(driver);
+    AddactionOverviewElement addactionoverviewlelement = new AddactionOverviewElement(driver);
+    OvrViewAddPesnalTaskTest overviewAddPersonaltasktest = new OvrViewAddPesnalTaskTest();
+    DyplnMveActionElement dayplanelements = new DyplnMveActionElement(LoginTst.driver);
 
-    @Test
-    public void OverviewTest() throws InterruptedException
+
+    @BeforeTest
+    public void loginTest() throws InterruptedException
     {
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-
-        TestcaseLogin logintest = new TestcaseLogin();    //login test object created
-
-        logintest.validlogintest();
-
-        Thread.sleep(2000);
-
-        SelectCompanyTest selectcompy = new SelectCompanyTest();    // //select company object created
-
-        selectcompy.selectcompanuydropdown();
-
-
-        DashboardPagElement dashboardpage = new DashboardPagElement(driver);      //dashboard page element object created
+        addpersonaltask.newReport("Add action into action list view","Action_Add_Action_into_listview_Report");
+        logger =  extent.createTest("Login Test ");
+        LoginTst logintest = new LoginTst();
+        logintest.loginTestNew();
+        logger.log(Status.PASS, MarkupHelper.createLabel("User login  successfully", ExtentColor.GREEN));
+        logger.log(Status.PASS, MarkupHelper.createLabel("Company select successfully", ExtentColor.GREEN));
+        extent.flush();
+    }
+    @Test(priority = 1)
+    public void linkActionPage() throws InterruptedException
+    {
+        logger1 =  extent.createTest("Open the Action page ");
 
         dashboardpage.lnkaction();
 
-        //test.log(LogStatus.INFO,"successfully click on action page");
+        logger1.log(Status.PASS,MarkupHelper.createLabel("Successfully click on action Module",ExtentColor.GREEN));
 
-        AddactionOverviewElement overviewelement = new AddactionOverviewElement(driver);     //overview page element object created
+        dayplanelements.clickMyAction();
 
-        overviewelement.linkOverView();
+        extent.flush();
+    }
 
-        //test.log(LogStatus.INFO,"successfully click on overview");
-
-        Thread.sleep(200);
-
-        overviewelement.btnAdActionCriWek();      //critical this week  actioon
-
-        Thread.sleep(1000);
-
-        overviewelement.enterActiontitle();
-
-        overviewelement.selectduedate();
-
-        Thread.sleep(300);
-
-        overviewelement.selectProjectOvervw();
-
-        Thread.sleep(300);
-
-        overviewelement.selectActionAssigneeOvervw();
-
-        Thread.sleep(200);
-
-        overviewelement.btnSave();
-
-        Thread.sleep(100);
-
-        overviewelement.btnClosedPopup();
-
-        Thread.sleep(100);
-
-        overviewelement.btnAdActionImportWek();    //important this week  actioon
+    @Test(priority = 2)
+    public void addActionCriticalOvrVew() throws InterruptedException
+    {
+        logger2 =  extent.createTest("Add action into critical overview section");
 
         Thread.sleep(1000);
 
-        overviewelement.enterActiontitle();
+        overviewAddPersonaltasktest.countCriticalSections(logger2);
 
-        overviewelement.selectduedate();
-        Thread.sleep(300);
+        overviewpersonalTask.addBtnCriticalThisWeek();
 
-        overviewelement.selectProjectOvervw();
+        logger2.log(Status.PASS,MarkupHelper.createLabel("Click on Add button ",ExtentColor.GREEN));
 
-        Thread.sleep(300);
+        addActionDetails(logger2);
 
-        overviewelement.selectActionAssigneeOvervw();
+        Thread.sleep(500);
 
-        Thread.sleep(200);
+        addactionoverviewlelement.btnClosedPopup();
 
-        overviewelement.btnSave();
+        logger2.log(Status.PASS,MarkupHelper.createLabel("Successfully closed the pop up",ExtentColor.GREEN));
 
-        Thread.sleep(100);
+        overviewAddPersonaltasktest.countCriticalSections(logger2);
 
-        overviewelement.btnClosedPopup();
-
-        overviewelement.btnAdActionLesImportWek();      //less important this week  actioon
-
-        Thread.sleep(1000);
-
-        overviewelement.enterActiontitle();
-
-        overviewelement.selectduedate();
-        Thread.sleep(300);
-
-        overviewelement.selectProjectOvervw();
-
-        Thread.sleep(300);
-
-        overviewelement.selectActionAssigneeOvervw();
-
-        Thread.sleep(200);
-
-        overviewelement.btnSave();
-
-        Thread.sleep(100);
-
-        overviewelement.btnClosedPopup();
-
+        extent.flush();
 
     }
 
+    @Test(priority = 3)
+    public void addActionImportntOvrVew() throws InterruptedException
+    {
+        logger3 =  extent.createTest("Add action into important overview section");
 
+        Thread.sleep(1000);
+
+        overviewAddPersonaltasktest.countImportantSections(logger3);
+
+        overviewpersonalTask.addBtnImportantThisMonth();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("Click on Add button ",ExtentColor.GREEN));
+
+        addActionDetails(logger3);
+
+        Thread.sleep(500);
+
+        addactionoverviewlelement.btnClosedPopup();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("Successfully closed the pop up",ExtentColor.GREEN));
+
+        overviewAddPersonaltasktest.countImportantSections(logger3);
+
+        extent.flush();
+
+    }
+
+    @Test(priority = 4)
+    public void addActionLessImportntOvrVew() throws InterruptedException
+    {
+        logger4 =  extent.createTest("Add action into less important overview section");
+
+        Thread.sleep(1000);
+
+        overviewAddPersonaltasktest.countLessImportantSections(logger4);
+
+        overviewpersonalTask.addBtnLesImportantNextMonth();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("Click on Add button ",ExtentColor.GREEN));
+
+        addActionDetails(logger4);
+
+        Thread.sleep(500);
+
+        addactionoverviewlelement.btnClosedPopup();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("Successfully closed the pop up",ExtentColor.GREEN));
+
+        overviewAddPersonaltasktest.countLessImportantSections(logger4);
+
+        extent.flush();
+
+    }
+
+    public void addActionDetails(ExtentTest loggername) throws InterruptedException
+    {
+        Thread.sleep(1000);
+
+        actionelment.enterActiontitle();
+
+        loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully enter the action title",ExtentColor.GREEN));
+
+        overviewpersonalTask.selectTodayDate();
+
+        loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully select the due date",ExtentColor.GREEN));
+
+        Thread.sleep(500);
+
+        addactionoverviewlelement.selectproject(); // this element require to create beacause this is diffrent from other element
+
+        loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully select the project",ExtentColor.GREEN));
+
+        Thread.sleep(500);
+
+        addactionoverviewlelement.selectActionAssigneeName();
+
+        loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully select the assignee",ExtentColor.GREEN));
+
+        actionelment.clicksaveaction();
+
+        loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully add the action",ExtentColor.GREEN));
+    }
 }

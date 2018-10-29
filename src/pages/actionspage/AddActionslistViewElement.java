@@ -15,7 +15,7 @@ public class AddActionslistViewElement
 {
 
     WebDriver driver;
-    ResourceBundle proptiesdeprtment = ResourceBundle.getBundle("Departmentame");
+    ResourceBundle propertiestamplo5 = ResourceBundle.getBundle("tamplo5");
     ResourceBundle propertyfile = ResourceBundle.getBundle("actiondetails");
 
     public AddActionslistViewElement(WebDriver driver)
@@ -33,10 +33,10 @@ public class AddActionslistViewElement
     @FindBy(xpath = "//ul[@class='iconlist inline views withState']/li[1]/a/span[text()='CALENDAR VIEW']")
     WebElement calendarview;
 
-    @FindBy(xpath = "//div[@class='actiontool']/span[1]")        //common action assignee element
+    @FindBy(xpath = "//div[@class='actiontool']/span[1]/tamplo-icon-select")        //common action assignee element
     WebElement actionproject;
 
-    @FindBy(xpath = "//div[@class='actiontool']/span[2]")
+    @FindBy(xpath = "//div[@class='actiontool']/span[2]/tamplo-icon-select")
     WebElement  actionassignee;
 
     @FindBy(xpath = "//div[@class='dropdown-content ng-scope show']/ul/li")
@@ -78,24 +78,25 @@ public class AddActionslistViewElement
     {
         JavascriptExecutor excecuteactionproject = (JavascriptExecutor)driver;
         excecuteactionproject.executeScript("arguments[0].click();", actionproject);
-        //actionproject.click();
         int assgineecount = listofproject.size();
-        String  expectedassgine=proptiesdeprtment.getString("projectname");
+        String  expectedassgine=propertiestamplo5.getString("projectname");
+
         for(int i=1;i<=assgineecount;i++)
         {
-            try {
-               Thread.sleep(200);
-                WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li["+i+"]/a"));
-                String atalassginename = assignelement.getText();
-                //System.out.println("assginee name ="+atalassginename);
-                if(atalassginename.equals(expectedassgine))
-                {
-                    assignelement.click();
-                }}catch (Exception r)
+
+            try
+            {
+            WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li[" + i + "]/a"));
+            String atalassginename = assignelement.getText();
+            if (atalassginename.equals(expectedassgine))
+            {
+                assignelement.click();
+                break;
+            }
+            }catch (Exception r)
             {
                 System.out.println("condition not match");
             }
-
         }
     }
 
@@ -103,17 +104,19 @@ public class AddActionslistViewElement
 
         JavascriptExecutor excecuteactionassiggnee = (JavascriptExecutor) driver;
         excecuteactionassiggnee.executeScript("arguments[0].click();", actionassignee);
-        //actionassignee.click();
         int assgineecount = actionlistofassginee.size();
         String expectedassgine = propertyfile.getString("assginee1");
-        for (int i = 1; i <= assgineecount; i++) {
+        for (int i = 1; i <= assgineecount; i++)
+        {
             try {
                 Thread.sleep(200);
                 WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li[" + i + "]/a"));
                 String atalassginename = assignelement.getText();
                 //System.out.println("assginee name ="+atalassginename);
-                if (atalassginename.equals(expectedassgine)) {
+                if (atalassginename.equals(expectedassgine))
+                {
                     assignelement.click();
+                    break;
                 }
             } catch (Exception r) {
                 System.out.println("condition not match");

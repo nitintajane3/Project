@@ -8,9 +8,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.GetActionCount;
 
-import java.util.*;
-
-import static java.lang.Integer.*;
+import java.util.Calendar;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class OvrViewAddPesnalTaskElement
 {
@@ -352,7 +353,7 @@ public class OvrViewAddPesnalTaskElement
                 {
                     // below element find only active dates from respective month
                     try {
-                        WebElement actualnuumber = driver.findElement(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span/div/div/table/tbody/tr[" + i + "]/td[" + j + "][@class='ng-binding ng-scope']"));
+                        WebElement actualnuumber = driver.findElement(By.xpath("//li[@class='projectActionListItem addActionItem']/div[2]/span/div/div/table/tbody/tr[" + i + "]/td[" + j + "]"));
                         String actualdate = actualnuumber.getText();
                         if (Integer.valueOf(actualdate).equals(today)) {
                             actualnuumber.click();

@@ -91,7 +91,7 @@ public class AddactionProjectElement
 
     public void enterActiontitle()
     {
-        actionntitle.sendKeys(propertyfile.getString("actiontitle"));
+        actionntitle.sendKeys(propertyfile.getString("actiontitle1"));
     }
 
     public void clickduedate() throws InterruptedException
@@ -144,31 +144,30 @@ public class AddactionProjectElement
         return todayStr;
     }
 
-    public void selectactionassignee() throws InterruptedException {
+    public void selectActionAssignee() throws InterruptedException {
 
-        /*JavascriptExecutor excecuteactionassiggnee = (JavascriptExecutor)driver;
-        excecuteactionassiggnee.executeScript("arguments[0].click();", actionassignee);*/
         Thread.sleep(200);
         actionassignee.click();
         int assgineecount = listofassginee.size();
         String  expectedassgine=propertyfile.getString("assginee1");
         for(int i=1;i<=assgineecount;i++)
         {
-            try {
-            Thread.sleep(100);
-            WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li["+i+"]/a"));
-            String atalassginename = assignelement.getText();
-            System.out.println("atalassginename");
+                 try
+                {
 
-            System.out.println("assginee name ="+atalassginename);
-            if(atalassginename.equals(expectedassgine))
-            {
-                assignelement.click();
-                System.out.println("successfully click on assignee"+expectedassgine);
-            }}catch (Exception ryuh)
-            {
-                System.out.println("condition not match");
-            }
+                      WebElement assignelement = driver.findElement(By.xpath("//div[@class='dropdown-content ng-scope show']/ul/li["+i+"]/a"));
+                      String atalassginename = assignelement.getText();
+
+                     if(atalassginename.equals(expectedassgine))
+                         {
+                             assignelement.click();
+                              break;
+                         }
+
+                }catch (Exception ryuh)
+                       {
+                            System.out.println("condition not match");
+                       }
 
         }
     }
