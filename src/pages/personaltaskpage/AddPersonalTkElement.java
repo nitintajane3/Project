@@ -17,13 +17,13 @@ public class AddPersonalTkElement
 
 
     @FindBy(xpath = "//div[@class='projectActionsWidgetContainer']/div/div[1]/div[1]/h2[@class='headingprojectPriority ng-binding']")
-    WebElement criicallable;
+    public static WebElement criicallable;
 
     @FindBy(xpath = "//div[@class='projectActionsWidgetContainer']/div/div[2]/div[1]/h2[@class='headingprojectPriority ng-binding']")
-    WebElement impotyntlabel;
+    public static WebElement impotyntlabel;
 
     @FindBy(xpath = "//div[@class='projectActionsWidgetContainer']/div/div[3]/div[1]/h2[@class='headingprojectPriority ng-binding']")
-    WebElement lessimportntlabel;
+    public static WebElement lessimportntlabel;
 
     public int getCriticalCount()
     {

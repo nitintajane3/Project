@@ -2,9 +2,14 @@
 it contains add action after 8 days,  after 1 month , today and its working good
 2. and we edit the personal by personal task title
 3. In day plan move element.class contains proper method for select next date select previous date
-4. perosnal task change due date class are pending to completed working because in calendar previous date does not disable.
+4. personal task change due date class are pending to completed working because in calendar previous date does not disable.
+5. addactionlistviewtest.class this class contains count for list of action
+6. in list view different element in critical (also important ) and less important section to get project and user name i have
+create separate  class for less important
+7. list view related all common elememt present AddActionListViewElement.class
+8. in RemoveDayPlanActionsElement.java contains for loop to excrcute all condition for if contains only one action
+and this not match with expected condition to excecute the catch condition need to increase count in "editBtnTest" method
 
 
 
 
-tomarrow = start for day plan move test class last worked for  next date, previous date

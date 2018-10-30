@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.actionspage.AddActionslistViewElement;
 import pages.actionspage.AddactionProjectElement;
+import pages.dayplanpage.DyplnMveActionElement;
 import pages.personaltaskpage.OvrViewAddPesnalTaskElement;
 import utilities.NewExtendReport;
 
@@ -24,6 +25,7 @@ public class AddActionlistViewTest
     AddActionslistViewElement actionlistelmnt = new AddActionslistViewElement(driver);
     AddactionProjectElement actionelment = new AddactionProjectElement(driver);
     OvrViewAddPesnalTaskElement overviewpersonalTask = new OvrViewAddPesnalTaskElement(driver);
+    DyplnMveActionElement dayplanelements = new DyplnMveActionElement(driver);
 
     @BeforeTest
     public void loginTest() throws InterruptedException
@@ -37,7 +39,7 @@ public class AddActionlistViewTest
         extent.flush();
     }
     @Test(priority = 1)
-    public void linkDayplan() throws InterruptedException
+    public void linkActionPage() throws InterruptedException
     {
         logger1 =  extent.createTest("Open the Action page ");
 
@@ -51,6 +53,8 @@ public class AddActionlistViewTest
 
         logger1.log(Status.PASS,MarkupHelper.createLabel("Successfully open the list view",ExtentColor.GREEN));
 
+        dayplanelements.clickMyAction();
+
         extent.flush();
     }
 
@@ -61,11 +65,20 @@ public class AddActionlistViewTest
 
         Thread.sleep(800);
 
-    actionelment.btnaddcriticalaction();
+        int beforecriticalcount = actionlistelmnt.getCountCritical();
 
-    logger2.log(Status.PASS,MarkupHelper.createLabel("Successfully click on add critical button",ExtentColor.GREEN));
+        logger2.log(Status.PASS,MarkupHelper.createLabel("before adding action, Critical count is = " + beforecriticalcount ,ExtentColor.GREEN));
 
-    addActionDetails(logger2);
+        actionelment.btnaddcriticalaction();
+
+
+       logger2.log(Status.PASS,MarkupHelper.createLabel("Successfully click on add critical button",ExtentColor.GREEN));
+
+        addActionDetails(logger2);
+
+        int aftercriticalcount= actionlistelmnt.getCountCritical();
+
+        logger2.log(Status.PASS,MarkupHelper.createLabel("after adding action, Critical count is = " + aftercriticalcount ,ExtentColor.GREEN));
 
         extent.flush();
 }
@@ -77,6 +90,10 @@ public class AddActionlistViewTest
 
         logger3 =  extent.createTest("Add Action into importnant section ");
 
+        int beforeimportnantcount = actionlistelmnt.getCountImportant();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("before adding action, important count is = " + beforeimportnantcount ,ExtentColor.GREEN));
+
         Thread.sleep(500);
 
         actionelment.btnaddimportntaction();
@@ -84,6 +101,10 @@ public class AddActionlistViewTest
         logger3.log(Status.PASS,MarkupHelper.createLabel("Successfully click on add important button",ExtentColor.GREEN));
 
         addActionDetails(logger3);
+
+        int afterimportnantcount = actionlistelmnt.getCountImportant();
+
+        logger3.log(Status.PASS,MarkupHelper.createLabel("after adding action, important count is = " + afterimportnantcount ,ExtentColor.GREEN));
 
         extent.flush();
     }
@@ -94,13 +115,21 @@ public class AddActionlistViewTest
     {
         logger4 =  extent.createTest("Add Action into less important section ");
 
+        int beforelessimportnantcount = actionlistelmnt.getCountLessImportant();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("before adding action,less important count is = " + beforelessimportnantcount ,ExtentColor.GREEN));
+
         Thread.sleep(500);
 
         actionelment.btnaddlessimportantaction();
 
         logger4.log(Status.PASS,MarkupHelper.createLabel("Successfully click on add less important button",ExtentColor.GREEN));
 
-        addActionDetails(logger4);
+        addActionDetailsLessImportant(logger4);
+
+        int afterlessimportnantcount = actionlistelmnt.getCountLessImportant();
+
+        logger4.log(Status.PASS,MarkupHelper.createLabel("after adding action, less important count is = " + afterlessimportnantcount ,ExtentColor.GREEN));
 
         extent.flush();
     }
@@ -108,6 +137,49 @@ public class AddActionlistViewTest
 
     public void addActionDetails(ExtentTest loggername) throws InterruptedException
     {
+        try {
+            actionelment.enterActiontitle();
+
+            loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully enter the action title", ExtentColor.GREEN));
+
+            overviewpersonalTask.selectTodayDate();
+
+            loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully select the due date", ExtentColor.GREEN));
+
+            Thread.sleep(500);
+
+            actionlistelmnt.selectproject();
+
+            loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully select the project", ExtentColor.GREEN));
+
+            Thread.sleep(500);
+
+            actionlistelmnt.selectactionassigneename();
+
+            loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully select the assignee", ExtentColor.GREEN));
+
+            actionelment.clicksaveaction();
+
+            loggername.log(Status.PASS, MarkupHelper.createLabel("Successfully add the action", ExtentColor.GREEN));
+        }catch (Exception elementnotfund)
+        {
+            try
+            {
+                actionlistelmnt.btnOk();
+
+            }catch (Exception cancelclick)
+            {
+
+              actionlistelmnt.btnCancel();
+
+            }
+        }
+    }
+
+    public void addActionDetailsLessImportant(ExtentTest loggername) throws InterruptedException
+    {
+        try
+        {
         actionelment.enterActiontitle();
 
         loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully enter the action title",ExtentColor.GREEN));
@@ -118,19 +190,33 @@ public class AddActionlistViewTest
 
         Thread.sleep(500);
 
-        actionlistelmnt.selectproject();
+        actionlistelmnt.selectprojectlessimportant();
 
         loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully select the project",ExtentColor.GREEN));
 
         Thread.sleep(500);
 
-        actionlistelmnt.selectactionassigneename();
+        actionlistelmnt.selectactionassigneenamelessimportant();
 
         loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully select the assignee",ExtentColor.GREEN));
 
         actionelment.clicksaveaction();
 
         loggername.log(Status.PASS,MarkupHelper.createLabel("Successfully add the action",ExtentColor.GREEN));
+
+    }catch (Exception elementnotfund)
+    {
+        try
+        {
+            actionlistelmnt.btnOk();
+
+        }catch (Exception cancelclick)
+        {
+
+            actionlistelmnt.btnCancel();
+
+        }
+    }
     }
 
 }

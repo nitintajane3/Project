@@ -7,12 +7,11 @@ import org.testng.annotations.Test;
 import pages.dashboardpage.DashboardPagElement;
 import pages.departmentpage.AddDepartmetElement;
 import pages.departmentpage.EditdepartmentElement;
-import sun.awt.windows.ThemeReader;
 import utilities.NewExtendReport;
-import static functional.login.LoginTst.driver;
-import java.io.IOException;
+
 import java.util.concurrent.TimeUnit;
-import static utilities.NewExtendReport.extent;
+
+import static functional.login.LoginTst.driver;
 
 
 
@@ -48,6 +47,8 @@ public class AddDepartmentTest
        adddptemement.setDprtnametextarea();
 
        adddptemement.clickemptyspace();
+
+       Thread.sleep(500);
 
        driver.findElement(By.xpath("//button[text()='OK']")).click();
 
